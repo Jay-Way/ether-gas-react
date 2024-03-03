@@ -1,11 +1,12 @@
 import React from "react";
 import {ThemeSwitch} from "@/components/theme-switch";
-import {Card, CardBody, CardFooter, CardHeader, Image, Spacer} from "@nextui-org/react";
+import {Card, CardBody, CardFooter, CardHeader, Image, Spacer, Spinner} from "@nextui-org/react";
 import {useQuery} from "@tanstack/react-query";
 import {GasOracleQueryFn} from "@/app/Query/QueryFunctions";
 import {Skeleton} from "@nextui-org/skeleton";
-import AccordionCard from "@/components/AccordionCard";
+import L2ExplanationAccordion from "@/components/L2ExplanationAccordion";
 import CostCompareCard from "@/components/CostCompareCard";
+import L2OnboardingAccordion from "@/components/L2OnboardingAccordion";
 
 export default function MainCard() {
     const gasOracleQuery = useQuery({queryKey: ['gasPriceGwei'], queryFn: GasOracleQueryFn, enabled: true, refetchInterval: 5000});
@@ -50,7 +51,7 @@ export default function MainCard() {
                     </CardHeader>
                     <CardBody>
                         <p className="text-2xl">
-                            L1 Gas price is at <div className="inline text-4xl text-gray-600">{gasOracleQuery.data?.result.SafeGasPrice}</div> GWei
+                            L1 Gas price is at <div className="inline text-4xl text-gray-600">{gasOracleQuery.isLoading ? <Spinner color="default" labelColor="foreground"/> : gasOracleQuery.data?.result.SafeGasPrice}</div> GWei
                             right now.
                         </p>
                         <p className="text-2xl">You should probably use a L2!</p>
@@ -75,7 +76,8 @@ export default function MainCard() {
                     </CardBody>
                 </Card>
                 { !gasOracleQuery.isLoading ? <CostCompareCard mainnetGasPrice={gasOracleQuery?.data.result.SafeGasPrice} /> : cardSkeletonDiv}
-                <AccordionCard />
+                <L2ExplanationAccordion />
+                <L2OnboardingAccordion />
                 <div className="relative justify-center">
                     <p className="mt-4 text-xs text-center text-gray-500">Made with Next.js, Next-UI, TanStack and Typescript. Deployed via cloudfront
                         + s3.
