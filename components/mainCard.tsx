@@ -1,6 +1,6 @@
 import React from "react";
 import {ThemeSwitch} from "@/components/theme-switch";
-import {Card, CardBody, CardFooter, CardHeader, Image, Spacer, Switch} from "@nextui-org/react";
+import {Card, CardBody, CardFooter, CardHeader, Image, Spacer} from "@nextui-org/react";
 import {useQuery} from "@tanstack/react-query";
 import {GasOracleQueryFn} from "@/app/Query/QueryFunctions";
 import {Skeleton} from "@nextui-org/skeleton";
@@ -76,8 +76,17 @@ export default function MainCard() {
                 </Card>
                 { !gasOracleQuery.isLoading ? <CostCompareCard mainnetGasPrice={gasOracleQuery?.data.result.SafeGasPrice} /> : cardSkeletonDiv}
                 <AccordionCard />
-                <p className="mt-4 text-xs text-center text-gray-500">Made with Next.js, Next-UI, TanStack and Typescript. Deployed via cloudfront + s3</p>
+                <div className="relative justify-center">
+                    <p className="mt-4 text-xs text-center text-gray-500">Made with Next.js, Next-UI, TanStack and Typescript. Deployed via cloudfront
+                        + s3.
+                    </p>
+                    <p className="mt-4 text-xs text-center text-gray-500">
+                        <a target="_blank" href="https://github.com/Jay-Way/ether-gas-react">
+                            <div  className="underline">Github</div>
+                        </a>
+                    </p>
+                </div>
             </div>
         </>
-    );
+        );
 }
