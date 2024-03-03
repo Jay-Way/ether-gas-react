@@ -8,8 +8,10 @@ import L2ExplanationAccordion from "@/components/L2ExplanationAccordion";
 import CostCompareCard from "@/components/CostCompareCard";
 import L2OnboardingAccordion from "@/components/L2OnboardingAccordion";
 
+export const refetchInterval = 30000
+
 export default function MainCard() {
-    const gasOracleQuery = useQuery({queryKey: ['gasPriceGwei'], queryFn: GasOracleQueryFn, enabled: true, refetchInterval: 5000});
+    const gasOracleQuery = useQuery({queryKey: ['gasPriceGwei'], queryFn: GasOracleQueryFn, enabled: true, refetchInterval: refetchInterval});
     const cardSkeleton = <Card className="space-y-5 p-4 mt-4" radius="lg">
         <Skeleton className="rounded-lg">
             <div className="h-24 rounded-lg bg-default-300"></div>
@@ -46,7 +48,8 @@ export default function MainCard() {
                             width={20}
                         />
                         <div className="">
-                            <span className="text-xs text-default-500">Data from etherscan.io / arbiscan.io</span>
+                            <span className="text-xs text-default-500">Data from etherscan.io / Alchemy.</span>
+                            <p className="text-xs text-default-500">Updates every {refetchInterval/1000}s</p>
                         </div>
                     </CardHeader>
                     <CardBody>

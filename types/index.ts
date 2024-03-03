@@ -10,3 +10,9 @@ export interface GasActionItem {
   requiredGas: number,
   startContent: any
 }
+
+export interface L2SelectItem {
+  value: string,
+  label: string,
+  startContent: any
+}

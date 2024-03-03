@@ -5,7 +5,7 @@ import {Skeleton} from "@nextui-org/skeleton";
 import {GasActionItem} from "@/types";
 import {UseQueryResult} from "@tanstack/react-query";
 
-export default function CostCompareCardBody(props: {gasPrice: number, selectedGasActionItem: GasActionItem|undefined, ethFractions: number, ethPriceQuery: UseQueryResult<any>}) {
+export default function CostCompareCardBody(props: {gasPrice: number, selectedGasActionItem: GasActionItem|undefined, ethFractions: number, fiatFractions: number, ethPriceQuery: UseQueryResult<any>}) {
     if (props.ethPriceQuery.isLoading) {
         return <Skeleton className="rounded-lg">
             <div className="h-24 rounded-lg bg-default-300"></div>
@@ -28,7 +28,7 @@ export default function CostCompareCardBody(props: {gasPrice: number, selectedGa
                         </div>
                         <div className="text-small text-gray-400">or</div>
                         <div>
-                            ${((props.gasPrice * props.selectedGasActionItem.requiredGas) / Math.pow(10, 9) * etherPrice).toFixed(2)}
+                            ${((props.gasPrice * props.selectedGasActionItem.requiredGas) / Math.pow(10, 9) * etherPrice).toFixed(props.fiatFractions)}
                         </div>
                     </div>
                     : <p className="text-center">Please select an item.</p>

@@ -10,7 +10,7 @@ export default function L2OnboardingAccordion() {
             example
             you can use Coinbase or Kraken to move your funds to a L2 like Arbitrum for low costs.
         <Spacer y={8}/>
-            When you&apos;re using a EVM (Ethereum virtual machine) compatible L2 like Arbitrum you automatically control the L2 address with your L1
+            When you&apos;re using an EVM (Ethereum virtual machine) compatible L2 like Arbitrum you automatically control the L2 address with your L1
             private key.
             That means you can just use the same wallet as on L1.
         </p>

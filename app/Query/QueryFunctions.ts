@@ -8,7 +8,32 @@ export async function EtherPriceQueryFn() {
     return response.json();
 }
 
-export async function GasOracleArbitrumQueryFn() {
-    const response = await fetch('https://api.arbiscan.io/api?module=proxy&action=eth_gasPrice&apikey=' + process.env.arbiscan_key);
+export async function GasOracleOptimismPostFn() {
+    const body = {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "method": "eth_gasPrice"
+    };
+    const response = await fetch(
+        'https://opt-mainnet.g.alchemy.com/v2/' + process.env.alchemy_key_op,
+        {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
+    return response.json();
+}
+
+export async function GasOracleArbitrumPostFn() {
+    const body = {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "method": "eth_gasPrice"
+    };
+    const response = await fetch(
+        'https://arb-mainnet.g.alchemy.com/v2/' + process.env.alchemy_key_op,
+        {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
     return response.json();
 }

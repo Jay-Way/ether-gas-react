@@ -26,11 +26,11 @@ Current gas limits used by the app are
 Create a .env file and add these contents:
 
 ```
-ARBISCAN_KEY=xxx
 ETHERSCAN_KEY=xxx
+ALCHEMY_KEY=xxx
 ```
 
-Replacing xxx with an arbiscan and etherscan api key
+Replacing xxx with an etherscan and alchemy api key
 
 First, run the development server:
 
