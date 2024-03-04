@@ -1,11 +1,3 @@
-export async function GasOracleQueryFn() {
-  const response = await fetch(
-    "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=" +
-      process.env.etherscan_key,
-  );
-  return response.json();
-}
-
 export async function EtherPriceQueryFn() {
   const response = await fetch(
     "https://api.etherscan.io/api?module=stats&action=ethprice&apikey=" +
@@ -53,6 +45,15 @@ export async function PriorityFeeOptimismPostFn() {
     method: "eth_maxPriorityFeePerGas",
   };
   return BasePostFn(body, "opt");
+}
+
+export async function BaseFeeEthereumPostFn() {
+  const body = {
+    id: 1,
+    jsonrpc: "2.0",
+    method: "eth_gasPrice",
+  };
+  return BasePostFn(body, "eth");
 }
 
 export async function PriorityFeeEthereumPostFn() {

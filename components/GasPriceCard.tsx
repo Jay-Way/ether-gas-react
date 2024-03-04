@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { refetchInterval } from "@/components/mainCard";
+import { fromWei } from "@/components/utils/converter";
 
 export default function GasPriceCard(props: {
   gasOracleQuery: UseQueryResult<any>;
@@ -26,26 +27,26 @@ export default function GasPriceCard(props: {
           <span className="text-xs text-default-500">
             Data from etherscan.io / Alchemy.
           </span>
-          <p className="text-xs text-default-500">
+          <div className="text-xs text-default-500">
             Updates every {refetchInterval / 1000}s
-          </p>
+          </div>
         </div>
       </CardHeader>
       <CardBody>
-        <p className="text-2xl">
+        <div className="text-2xl">
           L1 Gas price is at{" "}
           <div className="inline text-4xl bg-gradient-to-tr from-pink-500 to-yellow-500 bg-clip-text text-transparent">
             {props.gasOracleQuery.isLoading ? (
               <Spinner color="default" labelColor="foreground" />
             ) : (
-              props.gasOracleQuery.data?.result.ProposeGasPrice
+              Math.trunc(fromWei(props.gasOracleQuery?.data.result))
             )}{" "}
             Gwei{" "}
           </div>
           right now.
-        </p>
+        </div>
         <Spacer y={8} />
-        <p className="text-2xl">You should use a L2!</p>
+        <div className="text-2xl">You should use a L2!</div>
       </CardBody>
     </Card>
   );

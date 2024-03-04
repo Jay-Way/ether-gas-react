@@ -29,11 +29,11 @@ export default function CostCompareCardBody(props: {
     <CardBody>
       {props.selectedGasActionItem ? (
         <div className="text-center">
-          <p>Expected cost: </p>
+          <div>Expected cost: </div>
           <div className="inline-block">
             <Code className="text-xs">
-              ({props.gasPrice.baseFee} + {props.gasPrice.priorityFee}) *{" "}
-              {requiredGas} =
+              ({props.gasPrice.baseFee.toFixed(2)} +{" "}
+              {props.gasPrice.priorityFee}) * {requiredGas} =
             </Code>
           </div>
           <div className="text-3xl bg-gradient-to-tr from-pink-500 to-yellow-500 bg-clip-text text-transparent">
@@ -52,7 +52,7 @@ export default function CostCompareCardBody(props: {
           </div>
         </div>
       ) : (
-        <p className="text-center">Please select an item.</p>
+        <div className="text-center">Please select an item.</div>
       )}
     </CardBody>
   );

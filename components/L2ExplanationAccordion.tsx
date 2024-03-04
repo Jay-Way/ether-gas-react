@@ -5,7 +5,7 @@ import AccordionCard from "@/components/AccordionCard";
 export default function L2ExplanationAccordion() {
   const content = (
     <>
-      <p>
+      <div>
         L2s come in many forms, we&apos;re talking about rollups here. Rollups
         work by processing transactions on layer 2, but sending data to layer 1.
         This allows transactions to be much faster and cheaper, but still
@@ -18,7 +18,7 @@ export default function L2ExplanationAccordion() {
         and the validity of the transaction is computed only when challenged.
         <Spacer y={8} />- ZK rollups: Proof of the validity of transactions is
         computed on layer 2 and submitted to layer 1.
-      </p>
+      </div>
     </>
   );
 

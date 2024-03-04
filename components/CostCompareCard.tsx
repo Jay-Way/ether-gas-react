@@ -22,6 +22,7 @@ import { GasActionItem, L2SelectItem, TotalGasFee } from "@/types";
 import { refetchInterval } from "@/components/mainCard";
 import { gasEstimatorItems, layer2Items } from "@/components/SelectContent";
 import CostCompareCardFooter from "@/components/CostCompareCardFooter";
+import { fromWei } from "@/components/utils/converter";
 
 export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   const arbitrumLogo = (
@@ -58,7 +59,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
     refetchInterval: refetchInterval,
   });
   const ethereumPrioPriceWei = ethereumPrioFeeQuery?.data?.result
-    ? parseInt(ethereumPrioFeeQuery?.data?.result, 16) / 1000000000
+    ? fromWei(ethereumPrioFeeQuery?.data?.result)
     : null;
 
   const selectedGasActionItem: GasActionItem | undefined =
@@ -73,7 +74,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
     refetchInterval: refetchInterval,
   }); // Wei?
   const arbiGasPriceWei = arbitrumGasOracleQuery?.data?.result
-    ? parseInt(arbitrumGasOracleQuery?.data?.result, 16)
+    ? fromWei(arbitrumGasOracleQuery?.data?.result)
     : null;
 
   const optimismPrioFeeQuery = useQuery({
@@ -83,7 +84,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
     refetchInterval: refetchInterval,
   });
   const optimismPrioPriceWei = optimismPrioFeeQuery?.data?.result
-    ? parseInt(optimismPrioFeeQuery?.data?.result, 16)
+    ? fromWei(optimismPrioFeeQuery?.data?.result)
     : null;
 
   const optimismGasPriceQuery = useQuery({
@@ -93,7 +94,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
     refetchInterval: refetchInterval,
   });
   const optimismGasPriceWei = optimismGasPriceQuery?.data?.result
-    ? parseInt(optimismGasPriceQuery?.data?.result, 16)
+    ? fromWei(optimismGasPriceQuery?.data?.result)
     : null;
 
   function handleLayer2Select(selectedItem: string): void {
@@ -109,12 +110,12 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   function getLayer2GasPrice(selectedItem: string): TotalGasFee {
     if (selectedItem == "optimism") {
       // Base fee + prio fee
-      const baseFee = (optimismGasPriceWei ?? 0) / 1000000000;
-      const priorityFee = (optimismPrioPriceWei ?? 0) / 1000000000;
+      const baseFee = optimismGasPriceWei ?? 0;
+      const priorityFee = optimismPrioPriceWei ?? 0;
       return { baseFee: baseFee, priorityFee: priorityFee };
     }
     if (selectedItem == "arbitrum") {
-      const baseFee = (arbiGasPriceWei ?? 0) / 1000000000;
+      const baseFee = arbiGasPriceWei ?? 0;
       return { baseFee: baseFee, priorityFee: 0 };
     }
     return { baseFee: 0, priorityFee: 0 };
@@ -152,12 +153,12 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
           </SelectItem>
         )}
       </Select>
-      <p className="text-xs pl-2 pt-2 text-gray-400">
+      <div className="text-xs pl-2 pt-2 text-gray-400">
         Calculation done with the respective gas limit, meaning these are the
         maximum costs of the transaction. The specific gas limits are only
         thought to be an estimate and might be wrong.
-      </p>
-      <p className="text-xs pl-2 pt-2 text-gray-400">
+      </div>
+      <div className="text-xs pl-2 pt-2 text-gray-400">
         1ETH = $
         {etherPriceQuery.isLoading ? (
           <Skeleton>
@@ -166,11 +167,11 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
         ) : (
           parseFloat(etherPriceQuery.data.result.ethusd).toFixed(2)
         )}
-      </p>
-      <p className="text-xs pl-2 pt-2 text-yellow-200">
+      </div>
+      <div className="text-xs pl-2 pt-2 text-yellow-200">
         Estimates currently don&apos;t include the fee charged when writing the
         batched data to L1. This will change with EIP-4844.
-      </p>
+      </div>
       <div id="two-card-grid" className="grid grid-cols-2 gap-2">
         <Card className="mt-6">
           <CardHeader className="justify-center text-3xl">
@@ -195,7 +196,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
                 ethPriceQuery={etherPriceQuery}
               />
             ) : (
-              <p className="text-center">Please select an item.</p>
+              <div className="text-center">Please select an item.</div>
             )}
           </CardBody>
           <CostCompareCardFooter
@@ -220,7 +221,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
                 ethPriceQuery={etherPriceQuery}
               />
             ) : (
-              <p className="text-center">Please select an item.</p>
+              <div className="text-center">Please select an item.</div>
             )}
           </CardBody>
           <CostCompareCardFooter gasPrice={getLayer2GasPrice(selectedL2)} />
