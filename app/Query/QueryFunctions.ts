@@ -8,19 +8,23 @@ export async function EtherPriceQueryFn() {
     return response.json();
 }
 
+export async function BasePostFn(body: any, network: string) {
+    const response = await fetch(
+        'https://' + network + '-mainnet.g.alchemy.com/v2/' + process.env.alchemy_key_op,
+        {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
+    return response.json();
+}
+
 export async function GasOracleOptimismPostFn() {
     const body = {
         "id": 1,
         "jsonrpc": "2.0",
         "method": "eth_gasPrice"
     };
-    const response = await fetch(
-        'https://opt-mainnet.g.alchemy.com/v2/' + process.env.alchemy_key_op,
-        {
-            method: 'POST',
-            body: JSON.stringify(body)
-        });
-    return response.json();
+    return BasePostFn(body, 'opt')
 }
 
 export async function GasOracleArbitrumPostFn() {
@@ -29,11 +33,23 @@ export async function GasOracleArbitrumPostFn() {
         "jsonrpc": "2.0",
         "method": "eth_gasPrice"
     };
-    const response = await fetch(
-        'https://arb-mainnet.g.alchemy.com/v2/' + process.env.alchemy_key_op,
-        {
-            method: 'POST',
-            body: JSON.stringify(body)
-        });
-    return response.json();
+    return BasePostFn(body, 'arb')
+}
+
+export async function PriorityFeeOptimismPostFn() {
+    const body = {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "method": "eth_maxPriorityFeePerGas"
+    };
+    return BasePostFn(body, 'opt')
+}
+
+export async function PriorityFeeEthereumPostFn() {
+    const body = {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "method": "eth_maxPriorityFeePerGas"
+    };
+    return BasePostFn(body, 'eth')
 }

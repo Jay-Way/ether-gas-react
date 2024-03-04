@@ -16,3 +16,8 @@ export interface L2SelectItem {
   label: string,
   startContent: any
 }
+
+export interface TotalGasFee {
+  baseFee: number,
+  priorityFee: number,
+}

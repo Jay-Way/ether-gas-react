@@ -17,6 +17,6 @@ export default function L2ExplanationAccordion() {
     </>
 
     return (
-        <AccordionCard title={'So what even is a L2?'} text={content}/>
+        <AccordionCard title={'So, what is a L2?'} text={content}/>
     )
 }

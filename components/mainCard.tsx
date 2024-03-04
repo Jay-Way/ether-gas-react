@@ -1,13 +1,15 @@
 import React from "react";
 import {ThemeSwitch} from "@/components/theme-switch";
-import {Card, CardBody, CardFooter, CardHeader, Image, Spacer, Spinner} from "@nextui-org/react";
+import {Card} from "@nextui-org/react";
 import {useQuery} from "@tanstack/react-query";
 import {GasOracleQueryFn} from "@/app/Query/QueryFunctions";
 import {Skeleton} from "@nextui-org/skeleton";
 import L2ExplanationAccordion from "@/components/L2ExplanationAccordion";
 import CostCompareCard from "@/components/CostCompareCard";
 import L2OnboardingAccordion from "@/components/L2OnboardingAccordion";
-
+import GasExplanationCard from "@/components/GasExplanationCard";
+import GasPriceCard from "@/components/GasPriceCard";
+import AboutFooter from "@/components/AboutFooter";
 export const refetchInterval = 30000
 
 export default function MainCard() {
@@ -34,64 +36,22 @@ export default function MainCard() {
         {cardSkeleton}
     </div>
 
-        return (
+    return (
         <>
-            <div className="relative p-4 rounded-2xl bg-gradient-to-tr from-pink-500 to-yellow-500 shadow-lg max-w-2xl">
+            <div className="relative p-4 rounded-2xl bg-[#222429] shadow-lg max-w-2xl">
                 <ThemeSwitch className="absolute top-0 right-0 p-4"/>
-                <p className="text-4xl">Why is my Ethereum transaction so expensive? 💸 (WIP)</p>
-                <Card className="mt-6">
-                    <CardHeader className="flex gap-3">
-                        <Image
-                            alt="ethereum logo"
-                            radius="sm"
-                            src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
-                            width={20}
-                        />
-                        <div className="">
-                            <span className="text-xs text-default-500">Data from etherscan.io / Alchemy.</span>
-                            <p className="text-xs text-default-500">Updates every {refetchInterval/1000}s</p>
-                        </div>
-                    </CardHeader>
-                    <CardBody>
-                        <p className="text-2xl">
-                            L1 Gas price is at <div className="inline text-4xl text-gray-600">{gasOracleQuery.isLoading ? <Spinner color="default" labelColor="foreground"/> : gasOracleQuery.data?.result.SafeGasPrice}</div> GWei
-                            right now.
-                        </p>
-                        <p className="text-2xl">You should probably use a L2!</p>
-                    </CardBody>
-                    <CardFooter>
-                        <div className="text-xl">
-                            WTF does that even mean?
-                        </div>
-                    </CardFooter>
-                </Card>
-                <Card className=" mt-6">
-                    <CardBody>
-                        <p className="text-xl">Every transaction on Ethereum consumes a specific amount of computing power,
-                            called <strong>gas</strong>.</p>
-                        <Spacer y={8}/>
-                        <p className="text-large">The gas limit, multiplied by the current gas price results in the maximum cost of your tx. Keep in mind that usually not all of the gas is used.</p>
-                        <Spacer y={8}/>
-                        <p className="text-large">That means <strong>depending on what you&apos;re doing your expected fee varies.</strong></p>
-                        <Spacer y={8}/>
-                        <p className="text-large">But usually you can <strong>save money by using a Layer 2!</strong></p>
-                        <p className="text-large">Check out at these examples:</p>
-                    </CardBody>
-                </Card>
-                { !gasOracleQuery.isLoading ? <CostCompareCard mainnetGasPrice={gasOracleQuery?.data.result.SafeGasPrice} /> : cardSkeletonDiv}
-                <L2ExplanationAccordion />
-                <L2OnboardingAccordion />
-                <div className="relative justify-center">
-                    <p className="mt-4 text-xs text-center text-gray-500">Made with Next.js, Next-UI, TanStack and Typescript. Deployed via cloudfront
-                        + s3.
-                    </p>
-                    <p className="mt-4 text-xs text-center text-gray-500">
-                        <a target="_blank" href="https://github.com/Jay-Way/ether-gas-react">
-                            <div  className="underline">Github</div>
-                        </a>
-                    </p>
-                </div>
+                <p className="text-3xl text-gray-200">Why is my Ethereum transaction so expensive?</p>
+                <GasPriceCard gasOracleQuery={gasOracleQuery}/>
+                <GasExplanationCard/>
+                {
+                    !gasOracleQuery.isLoading ?
+                        <CostCompareCard mainnetGasPrice={gasOracleQuery?.data.result.ProposeGasPrice}/>
+                        : cardSkeletonDiv
+                }
+                <L2ExplanationAccordion/>
+                <L2OnboardingAccordion/>
+                <AboutFooter />
             </div>
         </>
-        );
+    );
 }

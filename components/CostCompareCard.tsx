@@ -1,12 +1,19 @@
 import {Card, CardBody, CardFooter, CardHeader, Select, SelectItem, Image, Spacer} from "@nextui-org/react";
 import React, {useState} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {EtherPriceQueryFn, GasOracleArbitrumPostFn, GasOracleOptimismPostFn} from "@/app/Query/QueryFunctions";
+import {
+    EtherPriceQueryFn,
+    GasOracleArbitrumPostFn,
+    GasOracleOptimismPostFn,
+    PriorityFeeEthereumPostFn,
+    PriorityFeeOptimismPostFn
+} from "@/app/Query/QueryFunctions";
 import CostCompareCardBody from "@/components/CostCompareCardBody";
 import {Skeleton} from "@nextui-org/skeleton";
-import {GasActionItem, L2SelectItem} from "@/types";
+import {GasActionItem, L2SelectItem, TotalGasFee} from "@/types";
 import {refetchInterval} from "@/components/mainCard";
 import {gasEstimatorItems, layer2Items} from "@/components/SelectContent";
+import CostCompareCardFooter from "@/components/CostCompareCardFooter";
 
 export default function CostCompareCard(props: {mainnetGasPrice: number}) {
     const arbitrumLogo = <Image alt="arb logo" radius="sm" src="https://cryptologos.cc/logos/arbitrum-arb-logo.svg?v=029" width={25}/>;
@@ -17,9 +24,16 @@ export default function CostCompareCard(props: {mainnetGasPrice: number}) {
     const [selectedL2, setSelectedL2] = useState<any>('arbitrum');
 
     const etherPriceQuery = useQuery({queryKey: ['etherPriceUsd'], queryFn: EtherPriceQueryFn, enabled: true, refetchInterval: refetchInterval});
+    const ethereumPrioFeeQuery = useQuery({queryKey: ['ethereumPrioFeeWei'], queryFn: PriorityFeeEthereumPostFn, enabled: true, refetchInterval: refetchInterval});
+    const ethereumPrioPriceWei = ethereumPrioFeeQuery?.data?.result ? (parseInt(ethereumPrioFeeQuery?.data?.result, 16) / 1000000000) : null;
+
     const selectedGasActionItem: GasActionItem | undefined = gasEstimatorItems.find((item) => {return item.value === selectedItem})
-    const arbitrumGasOracleQuery = useQuery({queryKey: ['arbitrumGasPriceGwei'], queryFn: GasOracleArbitrumPostFn, enabled: true, refetchInterval: refetchInterval});
+
+    const arbitrumGasOracleQuery = useQuery({queryKey: ['arbitrumGasPriceGwei'], queryFn: GasOracleArbitrumPostFn, enabled: true, refetchInterval: refetchInterval}); // Wei?
     const arbiGasPriceWei = arbitrumGasOracleQuery?.data?.result ? parseInt(arbitrumGasOracleQuery?.data?.result, 16) : null;
+
+    const optimismPrioFeeQuery = useQuery({queryKey: ['optimismPrioFeeWei'], queryFn: PriorityFeeOptimismPostFn, enabled: true, refetchInterval: refetchInterval});
+    const optimismPrioPriceWei = optimismPrioFeeQuery?.data?.result ? parseInt(optimismPrioFeeQuery?.data?.result, 16) : null;
 
     const optimismGasPriceQuery = useQuery({queryKey: ['optimismGasPriceGwei'], queryFn: GasOracleOptimismPostFn, enabled: true, refetchInterval: refetchInterval});
     const optimismGasPriceWei = optimismGasPriceQuery?.data?.result ? parseInt(optimismGasPriceQuery?.data?.result, 16) : null;
@@ -34,14 +48,19 @@ export default function CostCompareCard(props: {mainnetGasPrice: number}) {
         }
     }
 
-    function getLayer2GasPrice(selectedItem: string): number {
+    function getLayer2GasPrice(selectedItem: string): TotalGasFee {
         if (selectedItem == 'optimism') {
-            return (optimismGasPriceWei ?? 0) / 1000000000
+            // Base fee + prio fee
+            const baseFee = (optimismGasPriceWei ?? 0) / 1000000000;
+            const priorityFee = (optimismPrioPriceWei ?? 0) / 1000000000;
+            return {baseFee: baseFee, priorityFee: priorityFee}
         }
         if (selectedItem == 'arbitrum') {
-            return (arbiGasPriceWei ?? 0) / 1000000000
+            const baseFee = (arbiGasPriceWei ?? 0) / 1000000000
+            return {baseFee: baseFee, priorityFee: 0}
+
         }
-        return 0;
+        return {baseFee: 0, priorityFee: 0};
     }
 
     return (
@@ -76,7 +95,7 @@ export default function CostCompareCard(props: {mainnetGasPrice: number}) {
             <p className="text-xs pl-2 pt-2 text-gray-400">
                 1ETH = ${etherPriceQuery.isLoading ? <Skeleton><div className="w-10 h-10"></div></Skeleton> : parseFloat(etherPriceQuery.data.result.ethusd).toFixed(2)}
             </p>
-            <p className="text-xs pl-2 pt-2 text-yellow-100">Estimates are currently done without tips (Base fee only)!</p>
+            <p className="text-xs pl-2 pt-2 text-yellow-200">Estimates currently don&apos;t include the fee charged when writing the batched data to L1. This will change with EIP-4844.</p>
             <div id="two-card-grid" className="grid grid-cols-2 gap-2">
                 <Card className="mt-6">
                     <CardHeader className="justify-center text-3xl">
@@ -90,7 +109,7 @@ export default function CostCompareCard(props: {mainnetGasPrice: number}) {
                     <CardBody>
                         {selectedItem ?
                             <CostCompareCardBody
-                                gasPrice={props.mainnetGasPrice}
+                                gasPrice={{baseFee: props.mainnetGasPrice, priorityFee: ethereumPrioPriceWei ?? 0}}
                                 selectedGasActionItem={selectedGasActionItem}
                                 ethFractions={3}
                                 fiatFractions={2}
@@ -98,9 +117,7 @@ export default function CostCompareCard(props: {mainnetGasPrice: number}) {
                             /> : <p className="text-center">Please select an item.</p>
                         }
                     </CardBody>
-                    <CardFooter className="justify-center">
-                        <div className="text-xs text-gray-400">Estimated with {(props.mainnetGasPrice.toString())} Gwei</div>
-                    </CardFooter>
+                    <CostCompareCardFooter gasPrice={{baseFee: props.mainnetGasPrice, priorityFee: ethereumPrioPriceWei ?? 0}} />
                 </Card>
                 <Card className="mt-6">
                     <CardHeader className="justify-center text-3xl">
@@ -117,9 +134,7 @@ export default function CostCompareCard(props: {mainnetGasPrice: number}) {
                             /> : <p className="text-center">Please select an item.</p>
                         }
                     </CardBody>
-                    <CardFooter className="justify-center">
-                        <div className=" text-xs text-gray-400">Estimated with {getLayer2GasPrice(selectedL2)} Gwei</div>
-                    </CardFooter>
+                    <CostCompareCardFooter gasPrice={getLayer2GasPrice(selectedL2)} />
                 </Card>
             </div>
         </Card>

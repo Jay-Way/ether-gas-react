@@ -7,7 +7,9 @@ This is a simple educational webapp, supposed to highlight the differences in ga
 - Add translation file, i118n etc. with language selector
 - Allow custom gas limit entry
 - Find more reliable gas limits for tx types?
-- 
+- Add more L2s (Currently Arbitrum and Optimism)
+- Add more transaction types
+- Add L1 calldata calculation post EIP-4844
 
 PRs or feature requests are welcome!
 

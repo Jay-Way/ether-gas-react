@@ -18,6 +18,6 @@ export default function L2OnboardingAccordion() {
         <p>WIP</p>
     </>
     return (
-        <AccordionCard title={'Geez fine! So how do I get on L2?'} text={content}/>
+        <AccordionCard title={'How do I get on L2?'} text={content}/>
     )
 }
