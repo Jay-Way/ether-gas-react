@@ -2,6 +2,15 @@
 
 This is a simple educational webapp, supposed to highlight the differences in gas cost between Ethereum L1 and L2.
 
+## Disclaimer
+
+The gas calculation for L2 might be incorrect or not accurate. I want to try and come up with a more
+accurate calculation method, like saving past gas fee per transaction type in a backend and taking that fo
+a calculation basis.
+
+The main point of the app is to bring across the difference in gas price for L1 <> L2, so the calculations don't have to
+be perfectly accurate.
+
 ## TODOs
 
 - Add translation file, i118n etc. with language selector
