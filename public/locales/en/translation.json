@@ -1,0 +1,15 @@
+{
+  "l2onboarding": {
+    "accordionTitle": "How do I get on L2?",
+    "first": "There are many ways to get your funds to a L2. Most big exchanges support at least one Ethereum L2, for example you can use Coinbase or Kraken to move your funds to a L2 like Arbitrum for low costs.",
+    "second": "When you're using an EVM (Ethereum virtual machine) compatible L2 like Arbitrum you automatically control the L2 address with your L1 private key. That means you can just use the same wallet as on L1.",
+    "l2beatLink": "For an overview of the Ethereum L2 ecosystem visit"
+  },
+  "l2explanation": {
+    "accordionTitle": "So, what is a L2?",
+    "first": "Layer 2s, or L2s come in many forms, we're talking about rollups here. Rollups work by processing transactions on L2, but sending data to L1 (Ethereum). This allows transactions to be much faster and cheaper, but still benefit from the security of the Ethereum mainnet.",
+    "second": "There are two types of rollups: optimistic rollups and zero knowledge (ZK) rollups.",
+    "third": "- Optimistic rollups: L1 assumes transactions are valid by default, and the validity of the transaction is computed only when challenged.",
+    "fourth": "- ZK rollups: Proof of the validity of transactions is computed on L2 and submitted to L1."
+  }
+}

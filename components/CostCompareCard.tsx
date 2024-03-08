@@ -154,18 +154,6 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
           )}
         </Select>
 
-        {/*<div className="text-xs pl-2 pt-2 text-gray-400">*/}
-        {/*  1ETH = $*/}
-        {/*  {etherPriceQuery.isLoading ? (*/}
-        {/*    <Skeleton>*/}
-        {/*      <div className="w-10 h-10"></div>*/}
-        {/*    </Skeleton>*/}
-        {/*  ) : (*/}
-        {/*    parseFloat(etherPriceQuery.data.result.ethusd).toFixed(2)*/}
-        {/*  )}*/}
-        {/*</div>*/}
-
-
         <div id="two-card-grid" className="grid grid-cols-2">
           <Card className="m-3">
             <CardHeader className="justify-center text-3xl">
