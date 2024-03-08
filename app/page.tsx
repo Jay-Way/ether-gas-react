@@ -2,6 +2,7 @@
 
 import MainCard from "@/components/mainCard";
 import { Providers } from "@/app/providers";
+import '../i18nconfig';
 
 export default function Home() {
   return (
