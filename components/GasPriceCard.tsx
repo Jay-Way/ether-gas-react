@@ -35,7 +35,7 @@ export default function GasPriceCard(props: {
       <CardBody>
         <div className="text-2xl">
           L1 Gas price is at{" "}
-          <div className="inline text-4xl bg-gradient-to-tr from-pink-500 to-yellow-500 bg-clip-text text-transparent">
+          <div className="inline text-3xl bg-gradient-to-tr from-pink-500 to-yellow-500 bg-clip-text text-transparent">
             {props.gasOracleQuery.isLoading ? (
               <Spinner color="default" labelColor="foreground" />
             ) : (

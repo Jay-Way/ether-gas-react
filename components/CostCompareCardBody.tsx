@@ -32,7 +32,7 @@ export default function CostCompareCardBody(props: {
           <div>Expected cost: </div>
           <div className="inline-block">
             <Code className="text-xs">
-              ({props.gasPrice.baseFee.toFixed(2)} +{" "}
+              ({props.gasPrice.baseFee.toFixed(3)} +{" "}
               {props.gasPrice.priorityFee}) * {requiredGas} =
             </Code>
           </div>

@@ -17,12 +17,12 @@ import {
   PriorityFeeOptimismPostFn,
 } from "@/app/Query/QueryFunctions";
 import CostCompareCardBody from "@/components/CostCompareCardBody";
-import { Skeleton } from "@nextui-org/skeleton";
 import { GasActionItem, L2SelectItem, TotalGasFee } from "@/types";
 import { refetchInterval } from "@/components/mainCard";
 import { gasEstimatorItems, layer2Items } from "@/components/SelectContent";
 import CostCompareCardFooter from "@/components/CostCompareCardFooter";
 import { fromWei } from "@/components/utils/converter";
+import {Popover, PopoverContent, PopoverTrigger} from "@nextui-org/popover";
 
 export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   const arbitrumLogo = (
@@ -122,111 +122,124 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   }
 
   return (
-    <Card className="mt-6">
-      <Select
-        items={gasEstimatorItems}
-        label="Select transaction type"
-        placeholder="Choose item"
-        className="max-w-full p-2"
-        defaultSelectedKeys={["swap"]}
-        onChange={(selectedItem) => setSelectedItem(selectedItem.target.value)}
-      >
-        {(item: GasActionItem) => (
-          <SelectItem key={item.value} startContent={item.startContent}>
-            {item.label}
-          </SelectItem>
-        )}
-      </Select>
-      <Select
-        items={layer2Items}
-        label="Select L2"
-        placeholder="Choose item"
-        className="max-w-full p-2"
-        defaultSelectedKeys={["arbitrum"]}
-        onChange={(selectedItem) =>
-          handleLayer2Select(selectedItem.target.value)
-        }
-      >
-        {(item: L2SelectItem) => (
-          <SelectItem key={item.value} startContent={item.startContent}>
-            {item.label}
-          </SelectItem>
-        )}
-      </Select>
-      <div className="text-xs pl-2 pt-2 text-gray-400">
-        Calculation done with the respective gas limit, meaning these are the
-        maximum costs of the transaction. The specific gas limits are only
-        thought to be an estimate and might be wrong.
-      </div>
-      <div className="text-xs pl-2 pt-2 text-gray-400">
-        1ETH = $
-        {etherPriceQuery.isLoading ? (
-          <Skeleton>
-            <div className="w-10 h-10"></div>
-          </Skeleton>
-        ) : (
-          parseFloat(etherPriceQuery.data.result.ethusd).toFixed(2)
-        )}
-      </div>
-      <div className="text-xs pl-2 pt-2 text-yellow-200">
-        Estimates currently don&apos;t include the fee charged when writing the
-        batched data to L1. This will change with EIP-4844.
-      </div>
-      <div id="two-card-grid" className="grid grid-cols-2 gap-2">
-        <Card className="mt-6">
-          <CardHeader className="justify-center text-3xl">
-            L1 <Spacer x={2} />{" "}
-            <Image
-              alt="ethereum logo"
-              radius="sm"
-              src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
-              width={20}
-            />
-          </CardHeader>
-          <CardBody>
-            {selectedItem ? (
-              <CostCompareCardBody
+      <Card className="mt-6">
+        <Select
+            items={gasEstimatorItems}
+            label="Select transaction type"
+            placeholder="Choose item"
+            className="max-w-full p-2"
+            defaultSelectedKeys={["swap"]}
+            onChange={(selectedItem) => setSelectedItem(selectedItem.target.value)}
+        >
+          {(item: GasActionItem) => (
+              <SelectItem key={item.value} startContent={item.startContent}>
+                {item.label}
+              </SelectItem>
+          )}
+        </Select>
+        <Select
+            items={layer2Items}
+            label="Select L2"
+            placeholder="Choose item"
+            className="max-w-full p-2"
+            defaultSelectedKeys={["arbitrum"]}
+            onChange={(selectedItem) =>
+                handleLayer2Select(selectedItem.target.value)
+            }
+        >
+          {(item: L2SelectItem) => (
+              <SelectItem key={item.value} startContent={item.startContent}>
+                {item.label}
+              </SelectItem>
+          )}
+        </Select>
+
+        {/*<div className="text-xs pl-2 pt-2 text-gray-400">*/}
+        {/*  1ETH = $*/}
+        {/*  {etherPriceQuery.isLoading ? (*/}
+        {/*    <Skeleton>*/}
+        {/*      <div className="w-10 h-10"></div>*/}
+        {/*    </Skeleton>*/}
+        {/*  ) : (*/}
+        {/*    parseFloat(etherPriceQuery.data.result.ethusd).toFixed(2)*/}
+        {/*  )}*/}
+        {/*</div>*/}
+
+
+        <div id="two-card-grid" className="grid grid-cols-2">
+          <Card className="m-3">
+            <CardHeader className="justify-center text-3xl">
+              L1 <Spacer x={2}/>{" "}
+              <Image
+                  alt="ethereum logo"
+                  radius="sm"
+                  src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
+                  width={20}
+              />
+            </CardHeader>
+            <CardBody>
+              {selectedItem ? (
+                  <CostCompareCardBody
+                      gasPrice={{
+                        baseFee: props.mainnetGasPrice,
+                        priorityFee: ethereumPrioPriceWei ?? 0,
+                      }}
+                      selectedGasActionItem={selectedGasActionItem}
+                      ethFractions={3}
+                      fiatFractions={2}
+                      ethPriceQuery={etherPriceQuery}
+                  />
+              ) : (
+                  <div className="text-center">Please select an item.</div>
+              )}
+            </CardBody>
+            <CostCompareCardFooter
                 gasPrice={{
                   baseFee: props.mainnetGasPrice,
                   priorityFee: ethereumPrioPriceWei ?? 0,
                 }}
-                selectedGasActionItem={selectedGasActionItem}
-                ethFractions={3}
-                fiatFractions={2}
-                ethPriceQuery={etherPriceQuery}
-              />
-            ) : (
-              <div className="text-center">Please select an item.</div>
-            )}
-          </CardBody>
-          <CostCompareCardFooter
-            gasPrice={{
-              baseFee: props.mainnetGasPrice,
-              priorityFee: ethereumPrioPriceWei ?? 0,
-            }}
-          />
-        </Card>
-        <Card className="mt-6">
-          <CardHeader className="justify-center text-3xl">
-            L2 <Spacer x={2} />
-            {selectedL2Logo}
-          </CardHeader>
-          <CardBody>
-            {selectedItem ? (
-              <CostCompareCardBody
-                gasPrice={getLayer2GasPrice(selectedL2)}
-                selectedGasActionItem={selectedGasActionItem}
-                ethFractions={5}
-                fiatFractions={4}
-                ethPriceQuery={etherPriceQuery}
-              />
-            ) : (
-              <div className="text-center">Please select an item.</div>
-            )}
-          </CardBody>
-          <CostCompareCardFooter gasPrice={getLayer2GasPrice(selectedL2)} />
-        </Card>
-      </div>
-    </Card>
+            />
+          </Card>
+          <Card className="m-3">
+            <CardHeader className="justify-center text-3xl">
+              L2 <Spacer x={2}/>
+              {selectedL2Logo}
+            </CardHeader>
+            <CardBody>
+              {selectedItem ? (
+                  <CostCompareCardBody
+                      gasPrice={getLayer2GasPrice(selectedL2)}
+                      selectedGasActionItem={selectedGasActionItem}
+                      ethFractions={5}
+                      fiatFractions={4}
+                      ethPriceQuery={etherPriceQuery}
+                  />
+              ) : (
+                  <div className="text-center">Please select an item.</div>
+              )}
+            </CardBody>
+            <CostCompareCardFooter gasPrice={getLayer2GasPrice(selectedL2)}/>
+          </Card>
+        </div>
+        <div className="text-center pb-4">
+          <Popover>
+            <PopoverTrigger>
+              <div className="text-xs pl-2 underline decoration-dotted text-gray-400">
+                How accurate is this?
+              </div>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className="px-1 py-2 w-96">
+                <div className="text-xs text-gray-400">
+                  The L2 estimates currently don&apos;t contain the fee charged when writing the
+                  rollup data to L1. This will change with EIP-4844.
+                  <Spacer y={2}/>
+                  The estimates are only indicative and supposed to highlight the difference between L1 and L2.
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+      </Card>
   );
 }

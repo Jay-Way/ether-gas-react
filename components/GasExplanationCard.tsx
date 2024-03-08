@@ -12,23 +12,24 @@ export default function GasExplanationCard() {
           Every transaction on Ethereum consumes a specific amount of computing
           power, called <strong>gas</strong>.
         </div>
-        <Spacer y={8} />
+        <Spacer y={4} />
         <div className="text-large">
           The gas limit, multiplied by the current gas price results in the
           maximum cost of your tx. Keep in mind that usually not all of the gas
           is used.
         </div>
-        <Spacer y={8} />
+        <Spacer y={4} />
         <div className="text-large">
           That means{" "}
           <strong>
             depending on what you&apos;re doing your expected fee varies.
           </strong>
         </div>
-        <Spacer y={8} />
+        <Spacer y={4} />
         <div className="text-large">
-          But usually you can <strong>save money by using a Layer 2!</strong>
+          But usually you can <strong>save money by using a L2!</strong>
         </div>
+        <Spacer y={4} />
         <div className="text-large">Check out at these examples:</div>
       </CardBody>
     </Card>
