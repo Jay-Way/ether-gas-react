@@ -13,8 +13,8 @@ export default function NavbarHeader() {
                         <Button isIconOnly variant="bordered" size="sm">{i18n.language === 'de' ? 'DE' : 'EN'}</Button>
                     </DropdownTrigger>
                     <DropdownMenu onAction={(i18nLanguage) => i18n.changeLanguage(i18nLanguage.toString())}>
-                        <DropdownItem key="de" startContent={"🇩🇪"}>Deutsch</DropdownItem>
                         <DropdownItem key="en" startContent={"🇬🇧"}>English</DropdownItem>
+                        <DropdownItem key="de" startContent={"🇩🇪"}>Deutsch</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 <ThemeSwitch className="" />

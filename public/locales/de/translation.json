@@ -35,7 +35,7 @@
   },
   "disclaimerPopover": {
     "title": "Wie genau ist das?",
-    "first": "Die L1-Schätzung wird berechnet, indem die Base Fee + Priority Fee mit dem Gaslimit des Transaktionstyps multipliziert wird, was bedeutet. Das bedeutet diese Gebühr ist die maximal mögliche Gebühr.",
+    "first": "Die L1-Schätzung wird berechnet, indem die Base Fee + Priority Fee mit dem Gaslimit des Transaktionstyps multipliziert wird. Das bedeutet diese Gebühr ist die maximal mögliche Gebühr.",
     "second": "Die L2-Schätzung wird direkt aus CryptoStats übernommen - jede L2-Transaktion zahlt Gas auf L2 und dann zusätzlich auf L1, um die komprimierten Transaktionsdaten zu schreiben, was bedeutet, dass die Gebühr nicht auf die gleiche Weise wie auf L1 berechnet werden kann."
   },
   "estimationSelects": {

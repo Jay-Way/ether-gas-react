@@ -36,7 +36,7 @@
   "disclaimerPopover": {
     "title": "How accurate is this?",
     "first": "The L1 estimate is calculated by multiplying the base fee + priority fee with the gas limit of the transaction type, meaning this is the maximum possible gas fee.",
-    "second": "The L2 estimate is taken directly from CryptoStats - each L2 transfer pays gas on L2 and then again on L1 to write the batched data, meaning it can&apos;t be calculated the same way as on L1."
+    "second": "The L2 estimate is taken directly from CryptoStats - each L2 transfer pays gas on L2 and then again on L1 to write the batched data, meaning it can't be calculated the same way as on L1."
   },
   "estimationSelects": {
     "selectTransactionType": "Select transaction type",
