@@ -15,7 +15,7 @@ export default function GasExplanationCard() {
         <Spacer y={4} />
         <div className="text-large">
           The gas limit, multiplied by the current gas price results in the
-          maximum cost of your tx. Keep in mind that usually not all of the gas
+          maximum cost of your transaction. Keep in mind that usually not all of the gas
           is used.
         </div>
         <Spacer y={4} />

@@ -25,7 +25,7 @@ export default function GasPriceCard(props: {
         />
         <div className="">
           <span className="text-xs text-default-500">
-            Data from etherscan.io / Alchemy.
+            Data from Etherscan, Alchemy and CryptoStats.
           </span>
           <div className="text-xs text-default-500">
             Updates every {refetchInterval / 1000}s

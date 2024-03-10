@@ -1,63 +1,36 @@
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Select,
-  SelectItem,
-  Image,
-  Spacer,
-} from "@nextui-org/react";
-import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  EtherPriceQueryFn,
-  GasOracleArbitrumPostFn,
-  GasOracleOptimismPostFn,
-  PriorityFeeEthereumPostFn,
-  PriorityFeeOptimismPostFn,
-} from "@/app/Query/QueryFunctions";
-import CostCompareCardBody from "@/components/CostCompareCardBody";
-import { GasActionItem, L2SelectItem, TotalGasFee } from "@/types";
-import { refetchInterval } from "@/components/mainCard";
-import { gasEstimatorItems, layer2Items } from "@/components/SelectContent";
-import CostCompareCardFooter from "@/components/CostCompareCardFooter";
+import { Card } from "@nextui-org/react";
+import React, {useEffect, useState} from "react";
+import { GasActionItem } from "@/types";
+import { gasEstimatorItems } from "@/components/SelectContent";
 import { fromWei } from "@/components/utils/converter";
-import {Popover, PopoverContent, PopoverTrigger} from "@nextui-org/popover";
+import GasCostCard from "@/components/GasCostCard";
+import {arbitrumLogo, ethereumLogo, optimismLogo} from "@/components/logos/logos";
+import DisclaimerPopover from "@/components/DisclaimerPopover";
+import EstimationSelects from "@/components/EstimationSelects";
+import {
+  useArbitrumL2UsdFeeQuery, useArbitrumL2UsdFeeSwapQuery,
+  useArbitrumL2UsdTransferErc20Query,
+  useEthereumPrioFeeQuery, useEtherPriceQuery,
+  useOptimismL2UsdFeeQuery,
+  useOptimismL2UsdFeeSwapQuery,
+  useOptimismL2UsdTransferErc20Query
+} from "@/app/Query/Queries";
 
 export default function CostCompareCard(props: { mainnetGasPrice: number }) {
-  const arbitrumLogo = (
-    <Image
-      alt="arb logo"
-      radius="sm"
-      src="https://cryptologos.cc/logos/arbitrum-arb-logo.svg?v=029"
-      width={25}
-    />
-  );
-  const optimismLogo = (
-    <Image
-      alt="opt logo"
-      radius="sm"
-      src="https://cryptologos.cc/logos/optimism-ethereum-op-logo.svg?v=029"
-      width={25}
-    />
-  );
-
   const [selectedItem, setSelectedItem] = useState<any>("swap");
   const [selectedL2Logo, setSelectedL2Logo] = useState<any>(arbitrumLogo);
   const [selectedL2, setSelectedL2] = useState<any>("arbitrum");
+  const [aggregatedL2Fees, setAggregatedL2Fees] = useState<any>();
 
-  const etherPriceQuery = useQuery({
-    queryKey: ["etherPriceUsd"],
-    queryFn: EtherPriceQueryFn,
-    enabled: true,
-    refetchInterval: refetchInterval,
-  });
-  const ethereumPrioFeeQuery = useQuery({
-    queryKey: ["ethereumPrioFeeWei"],
-    queryFn: PriorityFeeEthereumPostFn,
-    enabled: true,
-    refetchInterval: refetchInterval,
-  });
+  const etherPriceQuery = useEtherPriceQuery();
+  const arbitrumL2UsdFeeSwapQuery = useArbitrumL2UsdFeeSwapQuery();
+  const arbitrumL2UsdFeeQuery = useArbitrumL2UsdFeeQuery();
+  const arbitrumL2UsdTransferErc20Query = useArbitrumL2UsdTransferErc20Query();
+  const optimismL2UsdFeeSwapQuery = useOptimismL2UsdFeeSwapQuery();
+  const optimismL2UsdFeeQuery = useOptimismL2UsdFeeQuery();
+  const optimismL2UsdTransferErc20Query = useOptimismL2UsdTransferErc20Query();
+  const ethereumPrioFeeQuery = useEthereumPrioFeeQuery();
+
   const ethereumPrioPriceWei = ethereumPrioFeeQuery?.data?.result
     ? fromWei(ethereumPrioFeeQuery?.data?.result)
     : null;
@@ -67,167 +40,65 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
       return item.value === selectedItem;
     });
 
-  const arbitrumGasOracleQuery = useQuery({
-    queryKey: ["arbitrumGasPriceGwei"],
-    queryFn: GasOracleArbitrumPostFn,
-    enabled: true,
-    refetchInterval: refetchInterval,
-  }); // Wei?
-  const arbiGasPriceWei = arbitrumGasOracleQuery?.data?.result
-    ? fromWei(arbitrumGasOracleQuery?.data?.result)
-    : null;
-
-  const optimismPrioFeeQuery = useQuery({
-    queryKey: ["optimismPrioFeeWei"],
-    queryFn: PriorityFeeOptimismPostFn,
-    enabled: true,
-    refetchInterval: refetchInterval,
-  });
-  const optimismPrioPriceWei = optimismPrioFeeQuery?.data?.result
-    ? fromWei(optimismPrioFeeQuery?.data?.result)
-    : null;
-
-  const optimismGasPriceQuery = useQuery({
-    queryKey: ["optimismGasPriceGwei"],
-    queryFn: GasOracleOptimismPostFn,
-    enabled: true,
-    refetchInterval: refetchInterval,
-  });
-  const optimismGasPriceWei = optimismGasPriceQuery?.data?.result
-    ? fromWei(optimismGasPriceQuery?.data?.result)
-    : null;
-
-  function handleLayer2Select(selectedItem: string): void {
-    setSelectedL2(selectedItem);
-    if (selectedItem == "optimism") {
-      setSelectedL2Logo(optimismLogo);
+  useEffect(() => {
+    const aggregatedGasFees = {
+      arbitrum: {
+        swap: arbitrumL2UsdFeeSwapQuery.data,
+        transfer: arbitrumL2UsdFeeQuery.data,
+        erc20: arbitrumL2UsdTransferErc20Query.data,
+      },
+      optimism: {
+        swap: optimismL2UsdFeeSwapQuery.data,
+        transfer: optimismL2UsdFeeQuery.data,
+        erc20: optimismL2UsdTransferErc20Query.data,
+      }
     }
-    if (selectedItem == "arbitrum") {
+    setAggregatedL2Fees(aggregatedGasFees)
+  }, [
+    arbitrumL2UsdFeeSwapQuery.isLoading,
+    arbitrumL2UsdFeeQuery.isLoading,
+    arbitrumL2UsdTransferErc20Query.isLoading,
+    optimismL2UsdFeeSwapQuery.isLoading,
+    optimismL2UsdFeeQuery.isLoading,
+    optimismL2UsdTransferErc20Query.isLoading,
+  ]);
+
+  function handleLayer2Select(givenL2: string): void {
+    setSelectedL2(givenL2)
+    if (givenL2 == "optimism") {
+      setSelectedL2Logo(optimismLogo);
+      setSelectedL2('optimism')
+    }
+    if (givenL2 == "arbitrum") {
       setSelectedL2Logo(arbitrumLogo);
     }
   }
 
-  function getLayer2GasPrice(selectedItem: string): TotalGasFee {
-    if (selectedItem == "optimism") {
-      // Base fee + prio fee
-      const baseFee = optimismGasPriceWei ?? 0;
-      const priorityFee = optimismPrioPriceWei ?? 0;
-      return { baseFee: baseFee, priorityFee: priorityFee };
-    }
-    if (selectedItem == "arbitrum") {
-      const baseFee = arbiGasPriceWei ?? 0;
-      return { baseFee: baseFee, priorityFee: 0 };
-    }
-    return { baseFee: 0, priorityFee: 0 };
-  }
+  const requiredGas = selectedGasActionItem?.requiredGas ?? 0;
+  const ethereumTotalGasFee = (props.mainnetGasPrice + (ethereumPrioPriceWei ?? 0));
 
   return (
       <Card className="mt-6">
-        <Select
-            items={gasEstimatorItems}
-            label="Select transaction type"
-            placeholder="Choose item"
-            className="max-w-full p-2"
-            defaultSelectedKeys={["swap"]}
-            onChange={(selectedItem) => setSelectedItem(selectedItem.target.value)}
-        >
-          {(item: GasActionItem) => (
-              <SelectItem key={item.value} startContent={item.startContent}>
-                {item.label}
-              </SelectItem>
-          )}
-        </Select>
-        <Select
-            items={layer2Items}
-            label="Select L2"
-            placeholder="Choose item"
-            className="max-w-full p-2"
-            defaultSelectedKeys={["arbitrum"]}
-            onChange={(selectedItem) =>
-                handleLayer2Select(selectedItem.target.value)
-            }
-        >
-          {(item: L2SelectItem) => (
-              <SelectItem key={item.value} startContent={item.startContent}>
-                {item.label}
-              </SelectItem>
-          )}
-        </Select>
-
+        <EstimationSelects setSelectedItem={setSelectedItem} handleLayer2Select={handleLayer2Select} />
         <div id="two-card-grid" className="grid grid-cols-2">
-          <Card className="m-3">
-            <CardHeader className="justify-center text-3xl">
-              L1 <Spacer x={2}/>{" "}
-              <Image
-                  alt="ethereum logo"
-                  radius="sm"
-                  src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
-                  width={20}
-              />
-            </CardHeader>
-            <CardBody>
-              {selectedItem ? (
-                  <CostCompareCardBody
-                      gasPrice={{
-                        baseFee: props.mainnetGasPrice,
-                        priorityFee: ethereumPrioPriceWei ?? 0,
-                      }}
-                      selectedGasActionItem={selectedGasActionItem}
-                      ethFractions={3}
-                      fiatFractions={2}
-                      ethPriceQuery={etherPriceQuery}
-                  />
-              ) : (
-                  <div className="text-center">Please select an item.</div>
-              )}
-            </CardBody>
-            <CostCompareCardFooter
-                gasPrice={{
-                  baseFee: props.mainnetGasPrice,
-                  priorityFee: ethereumPrioPriceWei ?? 0,
-                }}
-            />
-          </Card>
-          <Card className="m-3">
-            <CardHeader className="justify-center text-3xl">
-              L2 <Spacer x={2}/>
-              {selectedL2Logo}
-            </CardHeader>
-            <CardBody>
-              {selectedItem ? (
-                  <CostCompareCardBody
-                      gasPrice={getLayer2GasPrice(selectedL2)}
-                      selectedGasActionItem={selectedGasActionItem}
-                      ethFractions={5}
-                      fiatFractions={4}
-                      ethPriceQuery={etherPriceQuery}
-                  />
-              ) : (
-                  <div className="text-center">Please select an item.</div>
-              )}
-            </CardBody>
-            <CostCompareCardFooter gasPrice={getLayer2GasPrice(selectedL2)}/>
-          </Card>
+          <GasCostCard
+              selectedGasActionItem={selectedGasActionItem}
+              headerText={'L1'}
+              footerText={"Estimated with " + ethereumTotalGasFee.toFixed(2) + " GWei"}
+              headerLogo={ethereumLogo}
+              gasPriceETH={((ethereumTotalGasFee * requiredGas) / Math.pow(10, 9))}
+              gasPriceFiat={((ethereumTotalGasFee * requiredGas) * (etherPriceQuery.isLoading ? 0 : etherPriceQuery?.data.result.ethusd)) / Math.pow(10, 9) }
+          />
+          <GasCostCard
+              selectedGasActionItem={selectedGasActionItem}
+              headerText={'L2'}
+              footerText={'Estimate directly from CryptoStats.'}
+              headerLogo={selectedL2Logo}
+              gasPriceETH={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0) / (etherPriceQuery.isLoading ? 0 : etherPriceQuery?.data.result.ethusd)}
+              gasPriceFiat={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0)}
+          />
         </div>
-        <div className="text-center pb-4">
-          <Popover>
-            <PopoverTrigger>
-              <div className="text-xs pl-2 underline decoration-dotted text-gray-400">
-                How accurate is this?
-              </div>
-            </PopoverTrigger>
-            <PopoverContent>
-              <div className="px-1 py-2 w-96">
-                <div className="text-xs text-gray-400">
-                  The L2 estimates currently don&apos;t contain the fee charged when writing the
-                  rollup data to L1. This will change with EIP-4844.
-                  <Spacer y={2}/>
-                  The estimates are only indicative and supposed to highlight the difference between L1 and L2.
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
-        </div>
+        <DisclaimerPopover/>
       </Card>
   );
 }
