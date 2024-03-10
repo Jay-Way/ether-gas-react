@@ -27,3 +27,6 @@ export interface AggregatedFees {
   arbitrum: GasFees,
   optimism: GasFees
 }
+
+export type L2Options = 'arbitrum' | 'optimism'
+export type TransferTypeOptions = 'swap' | 'transfer' | 'erc20'

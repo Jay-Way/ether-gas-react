@@ -1,6 +1,6 @@
 import { Card } from "@nextui-org/react";
 import React, {useEffect, useState} from "react";
-import {AggregatedFees, GasActionItem} from "@/types";
+import {AggregatedFees, GasActionItem, L2Options, TransferTypeOptions} from "@/types";
 import { gasEstimatorItems } from "@/components/SelectContent";
 import { fromWei } from "@/components/utils/converter";
 import GasCostCard from "@/components/GasCostCard";
@@ -20,10 +20,10 @@ import {
 import {useTranslation} from "react-i18next";
 
 export default function CostCompareCard(props: { mainnetGasPrice: number }) {
-  const [selectedItem, setSelectedItem] = useState<any>("swap");
-  const [selectedL2Logo, setSelectedL2Logo] = useState<any>(arbitrumLogo);
-  const [selectedL2, setSelectedL2] = useState<any>("arbitrum");
-  const [aggregatedL2Fees, setAggregatedL2Fees] = useState<any>();
+  const [selectedItem, setSelectedItem] = useState<TransferTypeOptions>("swap");
+  const [selectedL2Logo, setSelectedL2Logo] = useState<JSX.Element>(arbitrumLogo);
+  const [selectedL2, setSelectedL2] = useState<L2Options>("arbitrum");
+  const [aggregatedL2Fees, setAggregatedL2Fees] = useState<AggregatedFees>();
   const {t} = useTranslation();
 
   const etherPriceQuery = useEtherPriceQuery();
@@ -67,8 +67,8 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
     optimismL2UsdTransferErc20Query.isLoading,
   ]);
 
-  function handleLayer2Select(givenL2: string): void {
-    setSelectedL2(givenL2 !== '' ? givenL2 : 'arbitrum')
+  function handleLayer2Select(givenL2: L2Options): void {
+    setSelectedL2(givenL2)
     if (givenL2 == "optimism") {
       setSelectedL2Logo(optimismLogo);
       setSelectedL2('optimism')
