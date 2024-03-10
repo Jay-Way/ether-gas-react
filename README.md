@@ -28,7 +28,7 @@ Translation files are stored in `/public/locales/{language}/translation.json`.
 
 ## Getting Started
 
-Create a .env file and add these contents:
+Create a .env file and add these contents, replacing xxx with your credentials:
 
 ```
 ETHERSCAN_KEY=xxx
@@ -41,8 +41,6 @@ AWS_PROFILE=xxx
 BUCKET_NAME=x
 CLOUDFRONT_DISTRIBUTION=xxx
 ```
-
-Replacing xxx with an etherscan and alchemy api key
 
 First, run the development server:
 

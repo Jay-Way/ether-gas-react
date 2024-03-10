@@ -20,6 +20,7 @@ export default function RootLayout({
           rel="icon"
           href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>"
       />
+      <title>{metadata.title?.toString()}</title>
     </head>
     <body className={inter.className}>
     <div className="sm:p-4 flex justify-center items-center">
