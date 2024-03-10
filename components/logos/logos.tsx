@@ -43,6 +43,16 @@ export const uniswapLogo = <Image
     width={25}
 />
 
+export const githubLogo = (
+    <Image
+        className="invert-[.60]" // Color inverted 60%
+        alt="github logo"
+        radius="sm"
+        src="github-mark.svg"
+        width={25}
+    />
+);
+
 export const MoonFilledIcon = ({
        size = 24,
        width,

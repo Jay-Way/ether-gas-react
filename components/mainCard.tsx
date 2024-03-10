@@ -25,7 +25,7 @@ export default function MainCard() {
   return (
     <>
       <NavbarHeader />
-      <div className="relative p-4 sm:rounded-2xl bg-[#222429] shadow-lg max-w-2xl">
+      <div className="p-4 sm:rounded-2xl bg-[#222429] shadow-lg max-w-2xl">
         <div className="text-3xl text-gray-200">
           {t('title')}
         </div>

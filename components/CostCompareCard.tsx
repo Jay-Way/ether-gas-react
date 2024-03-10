@@ -78,7 +78,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   return (
       <Card className="mt-6">
         <EstimationSelects setSelectedItem={setSelectedItem} setSelectedL2={setSelectedL2} />
-        <div id="two-card-grid" className="grid grid-cols-2">
+        <div id="two-card-grid" className="sm:grid grid-cols-2">
           <GasCostCard
               selectedGasActionItem={selectedGasActionItem}
               headerText={'L1'}
