@@ -39,6 +39,12 @@ Create a .env file and add these contents:
 ETHERSCAN_KEY=xxx
 ALCHEMY_KEY=xxx
 MORALIS_KEY=xxx
+
+# Only needed for deployment script:
+WORKING_DIR=xxx
+AWS_PROFILE=xxx
+BUCKET_NAME=x
+CLOUDFRONT_DISTRIBUTION=xxx
 ```
 
 Replacing xxx with an etherscan and alchemy api key
