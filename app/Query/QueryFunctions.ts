@@ -1,3 +1,5 @@
+import {CryptoStatsSDK} from "@cryptostats/sdk";
+
 export async function EtherPriceQueryFn() {
   const response = await fetch(
     "https://api.etherscan.io/api?module=stats&action=ethprice&apikey=" +
@@ -63,4 +65,15 @@ export async function PriorityFeeEthereumPostFn() {
     method: "eth_maxPriorityFeePerGas",
   };
   return BasePostFn(body, "eth");
+}
+
+export async function GetCryptoStatsFeeEstimation(query: string, network: string) {
+  const sdk = new CryptoStatsSDK({
+    moralisKey:  process.env.moralis_key,
+  });
+  const collection = sdk.getCollection('l2-fees');
+  const hash = network === 'arbitrum-one' ? 'QmQcs1eAGQ35hGWpN9J56NA9vTDGfK8ac9mK4NJo5vVVrA' : 'QmVBxEtdKe9CHGaj2PyRDMHpJxXgRA47hxHaDAjEBBVgA9'
+  await collection.fetchAdapterFromIPFS(hash)
+  const adapter = collection.getAdapter(network)
+  return adapter?.executeQuery(query);
 }

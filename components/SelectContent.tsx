@@ -24,12 +24,12 @@ export const gasEstimatorItems: Array<GasActionItem> = [
       />
     ),
   },
-  {
-    value: "nft",
-    label: "NFT sale",
-    requiredGas: 601953,
-    startContent: <Avatar name="NFT" />,
-  },
+  // {
+  //   value: "nft",
+  //   label: "NFT sale",
+  //   requiredGas: 601953,
+  //   startContent: <Avatar name="NFT" />,
+  // },
   {
     value: "erc20",
     label: "ERC-20 transfer",

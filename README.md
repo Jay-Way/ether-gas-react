@@ -17,8 +17,7 @@ be perfectly accurate.
 - Allow custom gas limit entry
 - Find more reliable gas limits for tx types?
 - Add more L2s (Currently Arbitrum and Optimism)
-- Add more transaction types
-- Add L1 calldata calculation post EIP-4844
+- Add more transaction types (Limited by CryptoStats adapters)
 
 PRs or feature requests are welcome!
 
@@ -39,6 +38,7 @@ Create a .env file and add these contents:
 ```
 ETHERSCAN_KEY=xxx
 ALCHEMY_KEY=xxx
+MORALIS_KEY=xxx
 ```
 
 Replacing xxx with an etherscan and alchemy api key
