@@ -17,7 +17,13 @@ export interface L2SelectItem {
   startContent: any
 }
 
-export interface TotalGasFee {
-  baseFee: number,
-  priorityFee: number,
+interface GasFees {
+  swap: number,
+  transfer: number,
+  erc20: number,
+}
+
+export interface AggregatedFees {
+  arbitrum: GasFees,
+  optimism: GasFees
 }

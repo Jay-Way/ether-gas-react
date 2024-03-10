@@ -22,33 +22,6 @@ export async function BasePostFn(body: any, network: string) {
   return response.json();
 }
 
-export async function GasOracleOptimismPostFn() {
-  const body = {
-    id: 1,
-    jsonrpc: "2.0",
-    method: "eth_gasPrice",
-  };
-  return BasePostFn(body, "opt");
-}
-
-export async function GasOracleArbitrumPostFn() {
-  const body = {
-    id: 1,
-    jsonrpc: "2.0",
-    method: "eth_gasPrice",
-  };
-  return BasePostFn(body, "arb");
-}
-
-export async function PriorityFeeOptimismPostFn() {
-  const body = {
-    id: 1,
-    jsonrpc: "2.0",
-    method: "eth_maxPriorityFeePerGas",
-  };
-  return BasePostFn(body, "opt");
-}
-
 export async function BaseFeeEthereumPostFn() {
   const body = {
     id: 1,

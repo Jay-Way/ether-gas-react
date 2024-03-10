@@ -1,6 +1,6 @@
 import { Card } from "@nextui-org/react";
 import React, {useEffect, useState} from "react";
-import { GasActionItem } from "@/types";
+import {AggregatedFees, GasActionItem} from "@/types";
 import { gasEstimatorItems } from "@/components/SelectContent";
 import { fromWei } from "@/components/utils/converter";
 import GasCostCard from "@/components/GasCostCard";
@@ -8,9 +8,11 @@ import {arbitrumLogo, ethereumLogo, optimismLogo} from "@/components/logos/logos
 import DisclaimerPopover from "@/components/DisclaimerPopover";
 import EstimationSelects from "@/components/EstimationSelects";
 import {
-  useArbitrumL2UsdFeeQuery, useArbitrumL2UsdFeeSwapQuery,
+  useArbitrumL2UsdFeeQuery,
+  useArbitrumL2UsdFeeSwapQuery,
   useArbitrumL2UsdTransferErc20Query,
-  useEthereumPrioFeeQuery, useEtherPriceQuery,
+  useEthereumPrioFeeQuery,
+  useEtherPriceQuery,
   useOptimismL2UsdFeeQuery,
   useOptimismL2UsdFeeSwapQuery,
   useOptimismL2UsdTransferErc20Query
@@ -43,7 +45,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
     });
 
   useEffect(() => {
-    const aggregatedGasFees = {
+    const aggregatedGasFees: AggregatedFees = {
       arbitrum: {
         swap: arbitrumL2UsdFeeSwapQuery.data,
         transfer: arbitrumL2UsdFeeQuery.data,
@@ -78,6 +80,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
 
   const requiredGas = selectedGasActionItem?.requiredGas ?? 0;
   const ethereumTotalGasFee = (props.mainnetGasPrice + (ethereumPrioPriceWei ?? 0));
+  const etherPrice = etherPriceQuery.isLoading ? 0 : etherPriceQuery?.data.result.ethusd;
 
   return (
       <Card className="mt-6">
@@ -89,14 +92,14 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
               footerText={t('gasCompareCard.estimationHintL1', {gasFee: ethereumTotalGasFee.toFixed(2)})}
               headerLogo={ethereumLogo}
               gasPriceETH={((ethereumTotalGasFee * requiredGas) / Math.pow(10, 9))}
-              gasPriceFiat={((ethereumTotalGasFee * requiredGas) * (etherPriceQuery.isLoading ? 0 : etherPriceQuery?.data.result.ethusd)) / Math.pow(10, 9) }
+              gasPriceFiat={((ethereumTotalGasFee * requiredGas) * etherPrice) / Math.pow(10, 9) }
           />
           <GasCostCard
               selectedGasActionItem={selectedGasActionItem}
               headerText={'L2'}
               footerText={t('gasCompareCard.estimationHintL2')}
               headerLogo={selectedL2Logo}
-              gasPriceETH={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0) / (etherPriceQuery.isLoading ? 0 : etherPriceQuery?.data.result.ethusd)}
+              gasPriceETH={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0) / etherPrice}
               gasPriceFiat={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0)}
           />
         </div>
