@@ -13,7 +13,6 @@ be perfectly accurate.
 
 ## TODOs
 
-- Add translation file, i118n etc. with language selector
 - Allow custom gas limit entry
 - Find more reliable gas limits for tx types?
 - Add more L2s (Currently Arbitrum and Optimism)
@@ -66,3 +65,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Deploying
+
+There is a simple deploy.sh script which will push the contents of `out` into s3 and invalidate a cloudfront distribution.
+Setting up these resources is not part of this project

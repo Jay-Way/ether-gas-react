@@ -6,7 +6,7 @@ import {useTranslation} from "react-i18next";
 export default function NavbarHeader() {
     const {i18n, t} = useTranslation();
     return (
-        <Navbar shouldHideOnScroll>
+        <Navbar position="static">
             <NavbarContent justify="end">
                 <Dropdown>
                     <DropdownTrigger>
