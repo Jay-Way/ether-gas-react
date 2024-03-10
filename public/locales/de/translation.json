@@ -3,7 +3,7 @@
   "gasExplanationCard": {
     "title": "Was bedeutet das?",
     "first": "Jede Transaktion auf Ethereum verbraucht eine bestimmte Menge Rechenleistung, genannt gas.",
-    "second": "Das Gaslimit multipliziert mit dem aktuellen gas Preis ergibt die maximale Kosten für deine Transaktion. Normalweise wird jedoch nicht das ganze gas verbraucht.",
+    "second": "Das Gaslimit multipliziert mit dem aktuellen gas Preis ergibt die maximale Kosten für deine Transaktion. Normalerweise wird jedoch nicht das ganze gas verbraucht.",
     "third": "Das bedeutet je nach Art der Transaktion wird die Gebühr variieren.",
     "fourth": "Normalerweise kannst du aber auf einer L2 Gebühren sparen!",
     "fifth": "Hier sind ein paar Beispiele:"
