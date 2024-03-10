@@ -4,7 +4,7 @@ import {GasActionItem, L2Options, L2SelectItem} from "@/types";
 import React from "react";
 import {useTranslation} from "react-i18next";
 
-export default function EstimationSelects(props: { setSelectedItem: any,  handleLayer2Select: (selectedItem: L2Options) => void}) {
+export default function EstimationSelects(props: { setSelectedItem: any,  setSelectedL2: (selectedItem: L2Options) => void}) {
     const {t} = useTranslation();
     return (
         <>
@@ -29,7 +29,7 @@ export default function EstimationSelects(props: { setSelectedItem: any,  handle
                 className="max-w-full p-2"
                 defaultSelectedKeys={["arbitrum"]}
                 onChange={(selectedItem) =>
-                    props.handleLayer2Select(selectedItem.target.value != '' ? selectedItem.target.value as L2Options : 'arbitrum')
+                    props.setSelectedL2(selectedItem.target.value != '' ? selectedItem.target.value as L2Options : 'arbitrum')
                 }
             >
                 {(item: L2SelectItem) => (
