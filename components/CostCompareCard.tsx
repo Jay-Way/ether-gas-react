@@ -15,12 +15,14 @@ import {
   useOptimismL2UsdFeeSwapQuery,
   useOptimismL2UsdTransferErc20Query
 } from "@/app/Query/Queries";
+import {useTranslation} from "react-i18next";
 
 export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   const [selectedItem, setSelectedItem] = useState<any>("swap");
   const [selectedL2Logo, setSelectedL2Logo] = useState<any>(arbitrumLogo);
   const [selectedL2, setSelectedL2] = useState<any>("arbitrum");
   const [aggregatedL2Fees, setAggregatedL2Fees] = useState<any>();
+  const {t} = useTranslation();
 
   const etherPriceQuery = useEtherPriceQuery();
   const arbitrumL2UsdFeeSwapQuery = useArbitrumL2UsdFeeSwapQuery();
@@ -64,7 +66,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   ]);
 
   function handleLayer2Select(givenL2: string): void {
-    setSelectedL2(givenL2)
+    setSelectedL2(givenL2 !== '' ? givenL2 : 'arbitrum')
     if (givenL2 == "optimism") {
       setSelectedL2Logo(optimismLogo);
       setSelectedL2('optimism')
@@ -84,7 +86,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
           <GasCostCard
               selectedGasActionItem={selectedGasActionItem}
               headerText={'L1'}
-              footerText={"Estimated with " + ethereumTotalGasFee.toFixed(2) + " GWei"}
+              footerText={t('gasCompareCard.estimationHintL1', {gasFee: ethereumTotalGasFee.toFixed(2)})}
               headerLogo={ethereumLogo}
               gasPriceETH={((ethereumTotalGasFee * requiredGas) / Math.pow(10, 9))}
               gasPriceFiat={((ethereumTotalGasFee * requiredGas) * (etherPriceQuery.isLoading ? 0 : etherPriceQuery?.data.result.ethusd)) / Math.pow(10, 9) }
@@ -92,7 +94,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
           <GasCostCard
               selectedGasActionItem={selectedGasActionItem}
               headerText={'L2'}
-              footerText={'Estimate directly from CryptoStats.'}
+              footerText={t('gasCompareCard.estimationHintL2')}
               headerLogo={selectedL2Logo}
               gasPriceETH={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0) / (etherPriceQuery.isLoading ? 0 : etherPriceQuery?.data.result.ethusd)}
               gasPriceFiat={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0)}

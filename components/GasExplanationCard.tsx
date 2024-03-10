@@ -1,36 +1,34 @@
 import { Card, CardBody, CardHeader, Spacer } from "@nextui-org/react";
 import React from "react";
+import {useTranslation} from "react-i18next";
 
 export default function GasExplanationCard() {
+  const {t} = useTranslation();
   return (
-    <Card className=" mt-6">
+    <Card className="mt-6">
       <CardHeader>
-        <div className="text-small text-gray-400">What does this mean?</div>
+        <div className="text-small text-gray-400">{t('gasExplanationCard.title')}</div>
       </CardHeader>
       <CardBody>
-        <div className="text-xl">
-          Every transaction on Ethereum consumes a specific amount of computing
-          power, called <strong>gas</strong>.
+        <div className="text-large">
+          {t('gasExplanationCard.first')}
         </div>
         <Spacer y={4} />
         <div className="text-large">
-          The gas limit, multiplied by the current gas price results in the
-          maximum cost of your transaction. Keep in mind that usually not all of the gas
-          is used.
+          {t('gasExplanationCard.second')}
         </div>
         <Spacer y={4} />
         <div className="text-large">
-          That means{" "}
-          <strong>
-            depending on what you&apos;re doing your expected fee varies.
-          </strong>
+          {t('gasExplanationCard.third')}
+        </div>
+        <Spacer y={4} />
+        <div className="text-large font-bold">
+          {t('gasExplanationCard.fourth')}
         </div>
         <Spacer y={4} />
         <div className="text-large">
-          But usually you can <strong>save money by using a L2!</strong>
+          {t('gasExplanationCard.fifth')}
         </div>
-        <Spacer y={4} />
-        <div className="text-large">Check out at these examples:</div>
       </CardBody>
     </Card>
   );

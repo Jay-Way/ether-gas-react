@@ -1,6 +1,7 @@
 import {Card, CardBody, CardFooter, CardHeader, Spacer} from "@nextui-org/react";
 import React from "react";
 import { GasActionItem } from "@/types";
+import {useTranslation} from "react-i18next";
 
 export default function GasCostCard(props: {
   selectedGasActionItem: GasActionItem | undefined;
@@ -10,6 +11,7 @@ export default function GasCostCard(props: {
   gasPriceETH: number;
   gasPriceFiat: number|undefined;
 }) {
+  const {t} = useTranslation();
   return (
       <Card className="m-3">
         <CardHeader className="justify-center text-3xl">
@@ -19,7 +21,7 @@ export default function GasCostCard(props: {
         <CardBody>
           {props.selectedGasActionItem ? (
               <div className="text-center">
-                <div>Expected cost: </div>
+                  {t('gasCompareCard.expectedCost')}
                 <div className="text-3xl bg-gradient-to-tr from-pink-500 to-yellow-500 bg-clip-text text-transparent">
                   {props.gasPriceETH.toFixed(5)} ETH
                 </div>
@@ -30,7 +32,9 @@ export default function GasCostCard(props: {
                 </div>
               </div>
           ) : (
-              <div className="text-center">Please select an item.</div>
+              <div className="text-center">
+                  {t('common.selectItem')}
+              </div>
           )}
         </CardBody>
           <CardFooter className="justify-center text-xs text-gray-400">

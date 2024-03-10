@@ -13,7 +13,7 @@ export const gasEstimatorItems: Array<GasActionItem> = [
   },
   {
     value: "transfer",
-    label: "Simple ETH transfer",
+    label: "ETH transfer",
     requiredGas: 21000,
     startContent: (
       <Image
@@ -24,12 +24,6 @@ export const gasEstimatorItems: Array<GasActionItem> = [
       />
     ),
   },
-  // {
-  //   value: "nft",
-  //   label: "NFT sale",
-  //   requiredGas: 601953,
-  //   startContent: <Avatar name="NFT" />,
-  // },
   {
     value: "erc20",
     label: "ERC-20 transfer",

@@ -1,4 +1,13 @@
 {
+  "title": "Why is my Ethereum transaction so expensive?",
+  "gasExplanationCard": {
+    "title": "What does this mean?",
+    "first": "Every transaction on Ethereum consumes a specific amount of computing power, called gas.",
+    "second": "The gas limit, multiplied by the current gas price results in the maximum cost of your transaction. Keep in mind that usually not all of the gas is used.",
+    "third": "This implies that the expected fee changes depending on the transaction type.",
+    "fourth": "But usually you can save money by using a L2!",
+    "fifth": "Check out at these examples:"
+  },
   "l2onboarding": {
     "accordionTitle": "How do I get on L2?",
     "first": "There are many ways to get your funds to a L2. Most big exchanges support at least one Ethereum L2, for example you can use Coinbase or Kraken to move your funds to a L2 like Arbitrum for low costs.",
@@ -11,5 +20,32 @@
     "second": "There are two types of rollups: optimistic rollups and zero knowledge (ZK) rollups.",
     "third": "- Optimistic rollups: L1 assumes transactions are valid by default, and the validity of the transaction is computed only when challenged.",
     "fourth": "- ZK rollups: Proof of the validity of transactions is computed on L2 and submitted to L1."
+  },
+  "gasCompareCard": {
+    "expectedCost": "Expected cost:",
+    "estimationHintL1": "Estimated with {{gasFee}} GWei",
+    "estimationHintL2": "Estimate directly from CryptoStats."
+  },
+  "gasPriceCard": {
+    "dataHint": "Data from Etherscan, Alchemy and CryptoStats.",
+    "refreshHint": "Updates every {{seconds}}s",
+    "l1GasPrice": "L1 Gas price is at ",
+    "rightNow": "right now",
+    "useL2": "You should use a L2!"
+  },
+  "disclaimerPopover": {
+    "title": "How accurate is this?",
+    "first": "The L1 estimate is calculated by multiplying the base fee + priority fee with the gas limit of the transaction type, meaning this is the maximum possible gas fee.",
+    "second": "The L2 estimate is taken directly from CryptoStats - each L2 transfer pays gas on L2 and then again on L1 to write the batched data, meaning it can&apos;t be calculated the same way as on L1."
+  },
+  "estimationSelects": {
+    "selectTransactionType": "Select transaction type",
+    "selectL2": "Choose L2",
+    "chooseItemPlaceholder": "Choose item",
+    "swapLabel": "Token swap (Uniswap)"
+  },
+  "common": {
+    "expandAccordion": "Expand",
+    "selectItem": "Please select an item."
   }
 }

@@ -1,0 +1,52 @@
+{
+  "title": "Warum ist meine Ethereum Transaktion so teuer?",
+  "gasExplanationCard": {
+    "title": "Was bedeutet das?",
+    "first": "Jede Transaktion auf Ethereum verbraucht eine bestimmte Menge Rechenleistung, genannt gas.",
+    "second": "Das Gaslimit multipliziert mit dem aktuellen gas Preis ergibt die maximale Kosten für deine Transaktion. Normalweise wird jedoch nicht das ganze gas verbraucht.",
+    "third": "Das bedeutet je nach Art der Transaktion wird die Gebühr variieren.",
+    "fourth": "Normalerweise kannst du aber auf einer L2 Gebühren sparen!",
+    "fifth": "Hier sind ein paar Beispiele:"
+  },
+  "l2onboarding": {
+    "accordionTitle": "Wie bekomme ich meine Coins auf L2",
+    "first": "Es gibt viele Möglichkeiten, deine Coins auf eine L2 zu übertragen. Die meisten großen Börsen unterstützen mindestens eine Ethereum L2. Du kannst zum Beispiel Coinbase oder Kraken nutzen, um deine Coins zu geringen Kosten auf eine L2 wie Arbitrum zu transferieren.",
+    "second": "Wenn Du eine EVM (Ethereum Virtual Machine)-kompatible L2 wie Arbitrum verwendest, kontrollierst Du automatisch die L2-Adresse mit Deinem L1 private key. Das bedeutet, Du kannst einfach dasselbe Wallet wie auf Ethereum verwenden.",
+    "l2beatLink": "Für einen Überblick über das L2 Ökosystem auf Ethereum besuche"
+  },
+  "l2explanation": {
+    "accordionTitle": "Was ist eine L2?",
+    "first": "Layer 2s, oder L2s, gibt es in vielen Formen, hier geht es um Rollups. Rollups funktionieren, indem sie Transaktionen auf L2 verarbeiten, aber die Transaktionsdaten schließlich komprimiert an L1 (Ethereum) senden. Dies ermöglicht wesentlich schnellere und günstigere Transaktionen, die dennoch von der Sicherheit des von Ethereum profitieren.",
+    "second": "Es gibt zwei Arten von Rollups, Optimistic Rollups und Zero Knowledge (ZK) Rollups.",
+    "third": "- Optimistic rollups: Auf L1 wird standardmäßig angenommen, dass Transaktionen gültig sind, und die Gültigkeit der Transaktion wird nur auf Anfrage bei einer sogenannten Challenge berechnet.",
+    "fourth": "- ZK rollups: Der Nachweis der Gültigkeit von Transaktionen wird auf L2 berechnet und an L1 übermittelt."
+  },
+  "gasCompareCard": {
+    "expectedCost": "Erwartete Kosten:",
+    "estimationHintL1": "Geschätzt mit {{gasFee}} GWei",
+    "estimationHintL2": "Schätzung von CryptoStats."
+  },
+  "gasPriceCard": {
+    "dataHint": "Daten von Etherscan, Alchemy und CryptoStats.",
+    "refreshHint": "Updates alle {{seconds}}s",
+    "l1GasPrice": "L1 gas ist gerade bei ",
+    "rightNow": "",
+    "useL2": "Du solltest eine L2 benutzen!"
+  },
+  "disclaimerPopover": {
+    "title": "Wie genau ist das?",
+    "first": "Die L1-Schätzung wird berechnet, indem die Base Fee + Priority Fee mit dem Gaslimit des Transaktionstyps multipliziert wird, was bedeutet. Das bedeutet diese Gebühr ist die maximal mögliche Gebühr.",
+    "second": "Die L2-Schätzung wird direkt aus CryptoStats übernommen - jede L2-Transaktion zahlt Gas auf L2 und dann zusätzlich auf L1, um die komprimierten Transaktionsdaten zu schreiben, was bedeutet, dass die Gebühr nicht auf die gleiche Weise wie auf L1 berechnet werden kann."
+  },
+  "estimationSelects": {
+    "selectTransactionType": "Transaktionstyp auswählen",
+    "selectL2": "L2 auswählen",
+    "chooseItemPlaceholder": "Eintrag wählen",
+    "swapLabel": "Token Tausch (Uniswap)"
+
+  },
+  "common": {
+    "expandAccordion": "Erweitern",
+    "selectItem": "Bitte einen Eintrag wählen."
+  }
+}
