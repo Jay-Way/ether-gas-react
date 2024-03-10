@@ -8,10 +8,23 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
-  themes: {
-    light: {},
-    dark: {},
-  },
   darkMode: "class",
-  plugins: [nextui()],
+  plugins: [nextui({
+    addCommonColors: true,
+    themes: {
+      dark: {
+        extend: "dark",
+        colors: {
+          background: "#17181C",
+        },
+      },
+      light: {
+        extend: "light",
+        colors: {
+          background: "#e4e4e7",
+          content1: "#e4e4e7",
+        },
+      },
+    },
+  })],
 }
