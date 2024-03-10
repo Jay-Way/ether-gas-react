@@ -20,11 +20,27 @@ export const optimismLogo = (
     />
 );
 
+export const usdcTokenLogo = (
+    <Image
+        alt="usdc logo"
+        radius="sm"
+        src="https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=029"
+        width={25}
+    />
+);
+
 export const ethereumLogo = <Image
     alt="ethereum logo"
     radius="sm"
     src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
-    width={20}
+    width={25}
+/>
+
+export const uniswapLogo = <Image
+    alt="uniswap logo"
+    radius="sm"
+    src="https://cryptologos.cc/logos/uniswap-uni-logo.svg?v=029"
+    width={25}
 />
 
 export const MoonFilledIcon = ({

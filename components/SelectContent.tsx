@@ -1,34 +1,24 @@
 import { GasActionItem, L2SelectItem } from "@/types";
-import { Avatar, Image } from "@nextui-org/react";
-import React from "react";
+import {arbitrumLogo, ethereumLogo, optimismLogo, uniswapLogo, usdcTokenLogo} from "@/components/logos/logos";
 
 export const gasEstimatorItems: Array<GasActionItem> = [
   {
     value: "swap",
     label: "Token swap (Uniswap)",
     requiredGas: 226228,
-    startContent: (
-      <Image alt="eth logo" radius="sm" src="uniswap-uni-logo.svg" width={25} />
-    ),
+    startContent: uniswapLogo,
   },
   {
     value: "transfer",
     label: "ETH transfer",
     requiredGas: 21000,
-    startContent: (
-      <Image
-        alt="eth logo"
-        radius="sm"
-        src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
-        width={25}
-      />
-    ),
+    startContent: ethereumLogo,
   },
   {
     value: "erc20",
     label: "ERC-20 transfer",
     requiredGas: 65000,
-    startContent: <Avatar name="ERC-20" />,
+    startContent: usdcTokenLogo,
   },
 ];
 
@@ -36,25 +26,11 @@ export const layer2Items: Array<L2SelectItem> = [
   {
     value: "arbitrum",
     label: "Arbitrum",
-    startContent: (
-      <Image
-        alt="arb logo"
-        radius="sm"
-        src="https://cryptologos.cc/logos/arbitrum-arb-logo.svg?v=029"
-        width={25}
-      />
-    ),
+    startContent: arbitrumLogo,
   },
   {
     value: "optimism",
     label: "Optimism",
-    startContent: (
-      <Image
-        alt="opt logo"
-        radius="sm"
-        src="https://cryptologos.cc/logos/optimism-ethereum-op-logo.svg?v=029"
-        width={25}
-      />
-    ),
+    startContent: optimismLogo,
   },
 ];
