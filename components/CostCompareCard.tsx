@@ -21,7 +21,6 @@ import {useTranslation} from "react-i18next";
 
 export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   const [selectedItem, setSelectedItem] = useState<TransferTypeOptions>("swap");
-  const [selectedL2Logo, setSelectedL2Logo] = useState<JSX.Element>(arbitrumLogo);
   const [selectedL2, setSelectedL2] = useState<L2Options>("arbitrum");
   const [aggregatedL2Fees, setAggregatedL2Fees] = useState<AggregatedFees>();
   const {t} = useTranslation();
@@ -67,15 +66,9 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
     optimismL2UsdTransferErc20Query.isLoading,
   ]);
 
-  function handleLayer2Select(givenL2: L2Options): void {
-    setSelectedL2(givenL2)
-    if (givenL2 == "optimism") {
-      setSelectedL2Logo(optimismLogo);
-      setSelectedL2('optimism')
-    }
-    if (givenL2 == "arbitrum") {
-      setSelectedL2Logo(arbitrumLogo);
-    }
+  const L2Logos = {
+    arbitrum: arbitrumLogo,
+    optimism: optimismLogo,
   }
 
   const requiredGas = selectedGasActionItem?.requiredGas ?? 0;
@@ -84,7 +77,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
 
   return (
       <Card className="mt-6">
-        <EstimationSelects setSelectedItem={setSelectedItem} handleLayer2Select={handleLayer2Select} />
+        <EstimationSelects setSelectedItem={setSelectedItem} setSelectedL2={setSelectedL2} />
         <div id="two-card-grid" className="grid grid-cols-2">
           <GasCostCard
               selectedGasActionItem={selectedGasActionItem}
@@ -98,7 +91,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
               selectedGasActionItem={selectedGasActionItem}
               headerText={'L2'}
               footerText={t('gasCompareCard.estimationHintL2')}
-              headerLogo={selectedL2Logo}
+              headerLogo={L2Logos[selectedL2]}
               gasPriceETH={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0) / etherPrice}
               gasPriceFiat={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0)}
           />
