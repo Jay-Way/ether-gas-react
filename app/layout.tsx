@@ -15,11 +15,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="sm:p-4 flex justify-center items-center">
-          {children}
-        </div>
-      </body>
+    <head>
+      <link
+          rel="icon"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>"
+      />
+    </head>
+    <body className={inter.className}>
+    <div className="sm:p-4 flex justify-center items-center">
+      {children}
+    </div>
+    </body>
     </html>
   );
 }
