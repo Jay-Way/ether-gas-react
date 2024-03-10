@@ -1,10 +1,11 @@
 import {Select, SelectItem} from "@nextui-org/react";
 import {gasEstimatorItems, layer2Items} from "@/components/SelectContent";
-import {GasActionItem, L2Options, L2SelectItem} from "@/types";
+import {GasActionItem, L2SelectItem} from "@/types";
 import React from "react";
 import {useTranslation} from "react-i18next";
+import {L2OptionsEnum} from "@/enums/enums";
 
-export default function EstimationSelects(props: { setSelectedItem: any,  setSelectedL2: (selectedItem: L2Options) => void}) {
+export default function EstimationSelects(props: { setSelectedItem: any,  setSelectedL2: (selectedItem: L2OptionsEnum) => void}) {
     const {t} = useTranslation();
     return (
         <>
@@ -29,7 +30,7 @@ export default function EstimationSelects(props: { setSelectedItem: any,  setSel
                 className="max-w-full p-2"
                 defaultSelectedKeys={["arbitrum"]}
                 onChange={(selectedItem) =>
-                    props.setSelectedL2(selectedItem.target.value != '' ? selectedItem.target.value as L2Options : 'arbitrum')
+                    props.setSelectedL2(selectedItem.target.value != '' ? selectedItem.target.value as L2OptionsEnum : L2OptionsEnum.arbitrum)
                 }
             >
                 {(item: L2SelectItem) => (

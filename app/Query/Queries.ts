@@ -1,10 +1,11 @@
-import {useQuery} from "@tanstack/react-query";
+import {useQueries, useQuery} from "@tanstack/react-query";
 import {
     EtherPriceQueryFn,
     GetCryptoStatsFeeEstimation,
     PriorityFeeEthereumPostFn
 } from "@/app/Query/QueryFunctions";
 import {refetchInterval} from "@/components/mainCard";
+import {CryptoStatsL2OptionsEnum, CryptoStatsQueriesEnum} from "@/enums/enums";
 
 export const useEthereumPrioFeeQuery = () => {
     return useQuery({
@@ -15,57 +16,28 @@ export const useEthereumPrioFeeQuery = () => {
     });
 };
 
-export const useOptimismL2UsdTransferErc20Query = () => {
-    return useQuery({
-        queryKey: ["optimismFeeTransferErc20Usd"],
-        queryFn: () => GetCryptoStatsFeeEstimation('feeTransferERC20', 'optimistic-ethereum'),
-        enabled: true,
-        refetchInterval: refetchInterval,
-    });
-};
-
-export const useOptimismL2UsdFeeQuery = () => {
-    return useQuery({
-        queryKey: ["optimismFeeTransferUsd"],
-        queryFn: () => GetCryptoStatsFeeEstimation('feeTransferEth', 'optimistic-ethereum'),
-        enabled: true,
-        refetchInterval: refetchInterval,
-    });
-};
-
-export const useOptimismL2UsdFeeSwapQuery = () => {
-    return useQuery({
-        queryKey: ["optimismFeeSwapUsd"],
-        queryFn: () => GetCryptoStatsFeeEstimation('feeSwap', 'optimistic-ethereum'),
-        enabled: true,
-        refetchInterval: refetchInterval,
-    });
-};
-
-export const useArbitrumL2UsdTransferErc20Query = () => {
-    return useQuery({
-        queryKey: ["arbitrumFeeTransferErc20Usd"],
-        queryFn: () => GetCryptoStatsFeeEstimation('feeTransferERC20', 'arbitrum-one'),
-        enabled: true,
-        refetchInterval: refetchInterval,
-    });
-};
-
-export const useArbitrumL2UsdFeeQuery = () => {
-    return useQuery({
-        queryKey: ["arbitrumFeeTransferUsd"],
-        queryFn: () => GetCryptoStatsFeeEstimation('feeTransferEth', 'arbitrum-one'),
-        enabled: true,
-        refetchInterval: refetchInterval,
-    });
-};
-
-export const useArbitrumL2UsdFeeSwapQuery = () => {
-    return useQuery({
-        queryKey: ["arbitrumFeeSwapUsd"],
-        queryFn: () => GetCryptoStatsFeeEstimation('feeSwap', 'arbitrum-one'),
-        enabled: true,
-        refetchInterval: refetchInterval,
+export const useL2FeeQuery = (network: CryptoStatsL2OptionsEnum) => {
+    return useQueries({
+        queries: [
+            {
+                queryFn: () => GetCryptoStatsFeeEstimation(CryptoStatsQueriesEnum.transfer, network),
+                queryKey: [network + '-' + CryptoStatsQueriesEnum.transfer],
+                enabled: true,
+                refetchInterval: refetchInterval,
+            },
+            {
+                queryFn: () => GetCryptoStatsFeeEstimation(CryptoStatsQueriesEnum.swap, network),
+                queryKey: [network + '-' + CryptoStatsQueriesEnum.swap],
+                enabled: true,
+                refetchInterval: refetchInterval,
+            },
+            {
+                queryFn: () => GetCryptoStatsFeeEstimation(CryptoStatsQueriesEnum.erc20, network),
+                queryKey: [network+ '-' + CryptoStatsQueriesEnum.erc20],
+                enabled: true,
+                refetchInterval: refetchInterval,
+            },
+        ],
     });
 };
 
