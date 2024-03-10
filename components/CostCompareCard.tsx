@@ -1,39 +1,35 @@
-import { Card } from "@nextui-org/react";
+import {Card} from "@nextui-org/react";
 import React, {useEffect, useState} from "react";
-import {AggregatedFees, GasActionItem, L2Options, TransferTypeOptions} from "@/types";
-import { gasEstimatorItems } from "@/components/SelectContent";
-import { fromWei } from "@/components/utils/converter";
+import {AggregatedFees, GasActionItem} from "@/types";
+import {gasEstimatorItems} from "@/components/SelectContent";
+import {fromWei} from "@/components/utils/converter";
 import GasCostCard from "@/components/GasCostCard";
 import {arbitrumLogo, ethereumLogo, optimismLogo} from "@/components/logos/logos";
 import DisclaimerPopover from "@/components/DisclaimerPopover";
 import EstimationSelects from "@/components/EstimationSelects";
-import {
-  useArbitrumL2UsdFeeQuery,
-  useArbitrumL2UsdFeeSwapQuery,
-  useArbitrumL2UsdTransferErc20Query,
-  useEthereumPrioFeeQuery,
-  useEtherPriceQuery,
-  useOptimismL2UsdFeeQuery,
-  useOptimismL2UsdFeeSwapQuery,
-  useOptimismL2UsdTransferErc20Query
-} from "@/app/Query/Queries";
+import {useEthereumPrioFeeQuery, useEtherPriceQuery, useL2FeeQuery} from "@/app/Query/Queries";
 import {useTranslation} from "react-i18next";
+import {CryptoStatsL2OptionsEnum, L2OptionsEnum, TransferTypeOptionsEnum} from "@/enums/enums";
 
 export default function CostCompareCard(props: { mainnetGasPrice: number }) {
-  const [selectedItem, setSelectedItem] = useState<TransferTypeOptions>("swap");
-  const [selectedL2, setSelectedL2] = useState<L2Options>("arbitrum");
+  const [selectedItem, setSelectedItem] = useState<TransferTypeOptionsEnum>(TransferTypeOptionsEnum.swap);
+  const [selectedL2, setSelectedL2] = useState<L2OptionsEnum>(L2OptionsEnum.arbitrum);
   const [aggregatedL2Fees, setAggregatedL2Fees] = useState<AggregatedFees>();
   const {t} = useTranslation();
 
   const etherPriceQuery = useEtherPriceQuery();
-  const arbitrumL2UsdFeeSwapQuery = useArbitrumL2UsdFeeSwapQuery();
-  const arbitrumL2UsdFeeQuery = useArbitrumL2UsdFeeQuery();
-  const arbitrumL2UsdTransferErc20Query = useArbitrumL2UsdTransferErc20Query();
-  const optimismL2UsdFeeSwapQuery = useOptimismL2UsdFeeSwapQuery();
-  const optimismL2UsdFeeQuery = useOptimismL2UsdFeeQuery();
-  const optimismL2UsdTransferErc20Query = useOptimismL2UsdTransferErc20Query();
-  const ethereumPrioFeeQuery = useEthereumPrioFeeQuery();
+  const [
+    optimismTransferFeeQuery,
+    optimismSwapFeeQuery,
+    optimismErc20FeeQuery
+  ] = useL2FeeQuery(CryptoStatsL2OptionsEnum.optimism);
+  const [
+    arbitrumTransferFeeQuery,
+    arbitrumSwapFeeQuery,
+    arbitrumErc20FeeQuery
+  ] = useL2FeeQuery(CryptoStatsL2OptionsEnum.arbitrum);
 
+  const ethereumPrioFeeQuery = useEthereumPrioFeeQuery();
   const ethereumPrioPriceWei = ethereumPrioFeeQuery?.data?.result
     ? fromWei(ethereumPrioFeeQuery?.data?.result)
     : null;
@@ -44,27 +40,28 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
     });
 
   useEffect(() => {
-    const aggregatedGasFees: AggregatedFees = {
-      arbitrum: {
-        swap: arbitrumL2UsdFeeSwapQuery.data,
-        transfer: arbitrumL2UsdFeeQuery.data,
-        erc20: arbitrumL2UsdTransferErc20Query.data,
+        const aggregatedGasFees: AggregatedFees = {
+          arbitrum: {
+            swap: arbitrumSwapFeeQuery.data,
+            transfer: arbitrumTransferFeeQuery.data,
+            erc20: arbitrumErc20FeeQuery.data,
+          },
+          optimism: {
+            swap: optimismSwapFeeQuery.data,
+            transfer: optimismTransferFeeQuery.data,
+            erc20: optimismErc20FeeQuery.data,
+          }
+        }
+        setAggregatedL2Fees(aggregatedGasFees)
       },
-      optimism: {
-        swap: optimismL2UsdFeeSwapQuery.data,
-        transfer: optimismL2UsdFeeQuery.data,
-        erc20: optimismL2UsdTransferErc20Query.data,
-      }
-    }
-    setAggregatedL2Fees(aggregatedGasFees)
-  }, [
-    arbitrumL2UsdFeeSwapQuery.isLoading,
-    arbitrumL2UsdFeeQuery.isLoading,
-    arbitrumL2UsdTransferErc20Query.isLoading,
-    optimismL2UsdFeeSwapQuery.isLoading,
-    optimismL2UsdFeeQuery.isLoading,
-    optimismL2UsdTransferErc20Query.isLoading,
-  ]);
+      [
+        arbitrumErc20FeeQuery.data,
+        arbitrumSwapFeeQuery.data,
+        arbitrumTransferFeeQuery.data,
+        optimismErc20FeeQuery.data,
+        optimismSwapFeeQuery.data,
+        optimismTransferFeeQuery.data
+      ]);
 
   const L2Logos = {
     arbitrum: arbitrumLogo,

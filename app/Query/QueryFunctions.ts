@@ -1,4 +1,5 @@
 import {CryptoStatsSDK} from "@cryptostats/sdk";
+import {CryptoStatsL2OptionsEnum, CryptoStatsQueriesEnum} from "@/enums/enums";
 
 export async function EtherPriceQueryFn() {
   const response = await fetch(
@@ -40,12 +41,15 @@ export async function PriorityFeeEthereumPostFn() {
   return BasePostFn(body, "eth");
 }
 
-export async function GetCryptoStatsFeeEstimation(query: string, network: string) {
+export async function GetCryptoStatsFeeEstimation(query: CryptoStatsQueriesEnum, network: CryptoStatsL2OptionsEnum) {
   const sdk = new CryptoStatsSDK({
     moralisKey:  process.env.moralis_key,
   });
   const collection = sdk.getCollection('l2-fees');
-  const hash = network === 'arbitrum-one' ? 'QmQcs1eAGQ35hGWpN9J56NA9vTDGfK8ac9mK4NJo5vVVrA' : 'QmVBxEtdKe9CHGaj2PyRDMHpJxXgRA47hxHaDAjEBBVgA9'
+  // IPFS collection hashes
+  const hash = network === CryptoStatsL2OptionsEnum.arbitrum
+      ? 'QmQcs1eAGQ35hGWpN9J56NA9vTDGfK8ac9mK4NJo5vVVrA' // arbitrum
+      : 'QmVBxEtdKe9CHGaj2PyRDMHpJxXgRA47hxHaDAjEBBVgA9'; // optimism
   await collection.fetchAdapterFromIPFS(hash)
   const adapter = collection.getAdapter(network)
   return adapter?.executeQuery(query);

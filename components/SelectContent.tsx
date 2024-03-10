@@ -1,21 +1,22 @@
 import { GasActionItem, L2SelectItem } from "@/types";
 import {arbitrumLogo, ethereumLogo, optimismLogo, uniswapLogo, usdcTokenLogo} from "@/components/logos/logos";
+import {L2OptionsEnum, TransferTypeOptionsEnum} from "@/enums/enums";
 
 export const gasEstimatorItems: Array<GasActionItem> = [
   {
-    value: "swap",
+    value: TransferTypeOptionsEnum.swap,
     label: "Token swap (Uniswap)",
     requiredGas: 226228,
     startContent: uniswapLogo,
   },
   {
-    value: "transfer",
+    value: TransferTypeOptionsEnum.transfer,
     label: "ETH transfer",
     requiredGas: 21000,
     startContent: ethereumLogo,
   },
   {
-    value: "erc20",
+    value: TransferTypeOptionsEnum.erc20,
     label: "ERC-20 transfer",
     requiredGas: 65000,
     startContent: usdcTokenLogo,
@@ -24,12 +25,12 @@ export const gasEstimatorItems: Array<GasActionItem> = [
 
 export const layer2Items: Array<L2SelectItem> = [
   {
-    value: "arbitrum",
+    value: L2OptionsEnum.arbitrum,
     label: "Arbitrum",
     startContent: arbitrumLogo,
   },
   {
-    value: "optimism",
+    value: L2OptionsEnum.optimism,
     label: "Optimism",
     startContent: optimismLogo,
   },

@@ -8,7 +8,7 @@ export default function GasCostCard(props: {
   headerText: string;
   footerText: string;
   headerLogo: JSX.Element;
-  gasPriceETH: number;
+  gasPriceETH: number|undefined;
   gasPriceFiat: number|undefined;
 }) {
   const {t} = useTranslation();
@@ -23,7 +23,7 @@ export default function GasCostCard(props: {
               <div className="text-center">
                   {t('gasCompareCard.expectedCost')}
                 <div className="text-3xl bg-gradient-to-tr from-pink-500 to-yellow-500 bg-clip-text text-transparent">
-                  {props.gasPriceETH.toFixed(5)} ETH
+                  {props.gasPriceETH ? props.gasPriceETH.toFixed(5) : 0} ETH
                 </div>
                 <div className="text-small text-gray-400">or</div>
                 <div>
