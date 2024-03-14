@@ -1,4 +1,4 @@
-import {Card} from "@nextui-org/react";
+import {Card, Spacer} from "@nextui-org/react";
 import React, {useEffect, useState} from "react";
 import {AggregatedFees, GasActionItem} from "@/types";
 import {gasEstimatorItems} from "@/components/SelectContent";
@@ -10,6 +10,7 @@ import EstimationSelects from "@/components/EstimationSelects";
 import {useEthereumPrioFeeQuery, useEtherPriceQuery, useL2FeeQuery} from "@/app/Query/Queries";
 import {useTranslation} from "react-i18next";
 import {CryptoStatsL2OptionsEnum, L2OptionsEnum, TransferTypeOptionsEnum} from "@/enums/enums";
+import {Chip} from "@nextui-org/chip";
 
 export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   const [selectedItem, setSelectedItem] = useState<TransferTypeOptionsEnum>(TransferTypeOptionsEnum.swap);
@@ -72,9 +73,14 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
   const ethereumTotalGasFee = (props.mainnetGasPrice + (ethereumPrioPriceWei ?? 0));
   const etherPrice = etherPriceQuery.isLoading ? 0 : etherPriceQuery?.data.result.ethusd;
 
+  const infoChips = {
+    arbitrum: <Chip size="sm" color="warning" variant="bordered" className="text-xs">Blob support coming soon!</Chip>,
+    optimism: <Chip size="sm" color="success" variant="bordered" className="text-xs">Blobs supported!</Chip>,
+  }
+
   return (
       <Card className="mt-6">
-        <EstimationSelects setSelectedItem={setSelectedItem} setSelectedL2={setSelectedL2} />
+        <EstimationSelects setSelectedItem={setSelectedItem} setSelectedL2={setSelectedL2}/>
         <div id="two-card-grid" className="sm:grid grid-cols-2">
           <GasCostCard
               selectedGasActionItem={selectedGasActionItem}
@@ -82,7 +88,8 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
               footerText={t('gasCompareCard.estimationHintL1', {gasFee: ethereumTotalGasFee.toFixed(2)})}
               headerLogo={ethereumLogo}
               gasPriceETH={((ethereumTotalGasFee * requiredGas) / Math.pow(10, 9))}
-              gasPriceFiat={((ethereumTotalGasFee * requiredGas) * etherPrice) / Math.pow(10, 9) }
+              gasPriceFiat={((ethereumTotalGasFee * requiredGas) * etherPrice) / Math.pow(10, 9)}
+
           />
           <GasCostCard
               selectedGasActionItem={selectedGasActionItem}
@@ -91,6 +98,7 @@ export default function CostCompareCard(props: { mainnetGasPrice: number }) {
               headerLogo={L2Logos[selectedL2]}
               gasPriceETH={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0) / etherPrice}
               gasPriceFiat={(aggregatedL2Fees ? aggregatedL2Fees[selectedL2][selectedItem] : 0)}
+              infoChip={infoChips[selectedL2]}
           />
         </div>
         <DisclaimerPopover/>
