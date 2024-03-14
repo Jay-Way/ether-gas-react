@@ -47,9 +47,22 @@ export async function GetCryptoStatsFeeEstimation(query: CryptoStatsQueriesEnum,
   });
   const collection = sdk.getCollection('l2-fees');
   // IPFS collection hashes
-  const hash = network === CryptoStatsL2OptionsEnum.arbitrum
-      ? 'QmQcs1eAGQ35hGWpN9J56NA9vTDGfK8ac9mK4NJo5vVVrA' // arbitrum
-      : 'QmVBxEtdKe9CHGaj2PyRDMHpJxXgRA47hxHaDAjEBBVgA9'; // optimism
+  let hash = null;
+  switch (network) {
+    case CryptoStatsL2OptionsEnum.arbitrum:
+      hash = 'QmQcs1eAGQ35hGWpN9J56NA9vTDGfK8ac9mK4NJo5vVVrA';
+      break;
+    case CryptoStatsL2OptionsEnum.optimism:
+      hash = 'QmVBxEtdKe9CHGaj2PyRDMHpJxXgRA47hxHaDAjEBBVgA9';
+      break;
+    case CryptoStatsL2OptionsEnum.starknet:
+      hash = 'QmSx3qAY8i6DqBvW7ustXk4ofQUEJe4CFNM6uziMAjuDcM';
+      break;
+    case CryptoStatsL2OptionsEnum.zksyncEra:
+    hash = 'QmbgTEeUoef4osMPLzY9zTwMdRoW1nYJR9fKVDp2DRazdM';
+      break;
+  }
+
   await collection.fetchAdapterFromIPFS(hash)
   const adapter = collection.getAdapter(network)
   return adapter?.executeQuery(query);

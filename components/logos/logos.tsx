@@ -20,6 +20,25 @@ export const optimismLogo = (
     />
 );
 
+export const starknetLogo = (
+    <Image
+        alt="stark logo"
+        radius="sm"
+        src="https://tokenlogo.xyz/assets/chain/starknet.svg"
+        width={25}
+    />
+);
+
+export const zkSyncEraLogo = (
+    <Image
+        alt="stark logo"
+        radius="sm"
+        src="https://tokenlogo.xyz/assets/chain/zksync.svg"
+        width={25}
+    />
+);
+
+
 export const usdcTokenLogo = (
     <Image
         alt="usdc logo"

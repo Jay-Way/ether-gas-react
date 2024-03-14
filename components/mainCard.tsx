@@ -12,7 +12,7 @@ import {useTranslation} from "react-i18next";
 import {cardSkeletonDiv} from "@/components/Skeletons/Skeletons";
 import NavbarHeader from "@/components/NavbarHeader";
 import EIP4844Accordion from "@/components/EIP4844Accordion";
-export const refetchInterval = 30000;
+export const refetchInterval = 60000;
 
 export default function MainCard() {
   const ethereumBaseFeeQuery = useQuery({

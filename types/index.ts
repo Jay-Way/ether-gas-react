@@ -1,4 +1,5 @@
 import {SVGProps} from "react";
+import {L2OptionsEnum} from "@/enums/enums";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -24,6 +25,8 @@ interface GasFees {
 }
 
 export interface AggregatedFees {
-  arbitrum: GasFees,
-  optimism: GasFees
+  [L2OptionsEnum.arbitrum]: GasFees,
+  [L2OptionsEnum.optimism]: GasFees,
+  [L2OptionsEnum.starknet]: GasFees,
+  [L2OptionsEnum.zksyncEra]: GasFees,
 }
