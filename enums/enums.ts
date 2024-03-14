@@ -1,11 +1,15 @@
 export enum CryptoStatsL2OptionsEnum {
     arbitrum = 'arbitrum-one',
     optimism = 'optimistic-ethereum',
+    starknet = 'starknet',
+    zksyncEra = 'zksync-era',
 }
 
 export enum L2OptionsEnum {
     arbitrum = 'arbitrum',
     optimism = 'optimism',
+    starknet = 'starknet',
+    zksyncEra = 'zksync-era',
 }
 
 export enum TransferTypeOptionsEnum {

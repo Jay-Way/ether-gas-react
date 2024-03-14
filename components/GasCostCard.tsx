@@ -11,6 +11,8 @@ export default function GasCostCard(props: {
   gasPriceETH: number|undefined;
   gasPriceFiat: number|undefined;
   infoChip?: JSX.Element|undefined;
+  ethFractions: number;
+  fiatFractions: number;
 }) {
   const {t} = useTranslation();
   return (
@@ -25,15 +27,11 @@ export default function GasCostCard(props: {
                       <div className="text-center">
                           {t('gasCompareCard.expectedCost')}
                           <div className="text-3xl bg-gradient-to-tr from-pink-500 to-yellow-500 bg-clip-text text-transparent">
-                              {props.gasPriceETH ? props.gasPriceETH.toFixed(6) : 0} ETH
+                              {props.gasPriceETH ? props.gasPriceETH.toFixed(props.ethFractions) + 'ETH' : 'No data :('}
                           </div>
                           <div className="text-small text-gray-400">or</div>
                           <div>
-                              $
-                              {props.gasPriceFiat ? props.gasPriceFiat.toFixed(4) : 0}
-                          </div>
-                          <div className="pt-2">
-                              {props.infoChip ? props.infoChip : <Spacer y={5}/> }
+                              {props.gasPriceFiat ? '$' + props.gasPriceFiat.toFixed(props.fiatFractions) : 'No data :('}
                           </div>
                       </div>
                   ) : (
