@@ -1,66 +1,47 @@
 import { GasActionItem, L2SelectItem } from "@/types";
-import { Avatar, Image } from "@nextui-org/react";
-import React from "react";
+import {arbitrumLogo, ethereumLogo, optimismLogo, starknetLogo, uniswapLogo, usdcTokenLogo, zkSyncEraLogo} from "@/components/logos/logos";
+import {L2OptionsEnum, TransferTypeOptionsEnum} from "@/enums/enums";
 
 export const gasEstimatorItems: Array<GasActionItem> = [
   {
-    value: "swap",
+    value: TransferTypeOptionsEnum.swap,
     label: "Token swap (Uniswap)",
     requiredGas: 226228,
-    startContent: (
-      <Image alt="eth logo" radius="sm" src="uniswap-uni-logo.svg" width={25} />
-    ),
+    startContent: uniswapLogo,
   },
   {
-    value: "transfer",
-    label: "Simple ETH transfer",
+    value: TransferTypeOptionsEnum.transfer,
+    label: "ETH transfer",
     requiredGas: 21000,
-    startContent: (
-      <Image
-        alt="eth logo"
-        radius="sm"
-        src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
-        width={25}
-      />
-    ),
+    startContent: ethereumLogo,
   },
   {
-    value: "nft",
-    label: "NFT sale",
-    requiredGas: 601953,
-    startContent: <Avatar name="NFT" />,
-  },
-  {
-    value: "erc20",
+    value: TransferTypeOptionsEnum.erc20,
     label: "ERC-20 transfer",
     requiredGas: 65000,
-    startContent: <Avatar name="ERC-20" />,
+    startContent: usdcTokenLogo,
   },
 ];
 
 export const layer2Items: Array<L2SelectItem> = [
   {
-    value: "arbitrum",
+    value: L2OptionsEnum.arbitrum,
     label: "Arbitrum",
-    startContent: (
-      <Image
-        alt="arb logo"
-        radius="sm"
-        src="https://cryptologos.cc/logos/arbitrum-arb-logo.svg?v=029"
-        width={25}
-      />
-    ),
+    startContent: arbitrumLogo,
   },
   {
-    value: "optimism",
+    value: L2OptionsEnum.optimism,
     label: "Optimism",
-    startContent: (
-      <Image
-        alt="opt logo"
-        radius="sm"
-        src="https://cryptologos.cc/logos/optimism-ethereum-op-logo.svg?v=029"
-        width={25}
-      />
-    ),
+    startContent: optimismLogo,
+  },
+  {
+    value: L2OptionsEnum.starknet,
+    label: "Starknet",
+    startContent: starknetLogo,
+  },
+  {
+    value: L2OptionsEnum.zksyncEra,
+    label: "ZkSync Era",
+    startContent: zkSyncEraLogo,
   },
 ];

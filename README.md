@@ -2,23 +2,14 @@
 
 This is a simple educational webapp, supposed to highlight the differences in gas cost between Ethereum L1 and L2.
 
-## Disclaimer
-
-The gas calculation for L2 might be incorrect or not accurate. I want to try and come up with a more
-accurate calculation method, like saving past gas fee per transaction type in a backend and taking that fo
-a calculation basis.
-
-The main point of the app is to bring across the difference in gas price for L1 <> L2, so the calculations don't have to
-be perfectly accurate.
+Data from Etherscan, Alchemy and CryptoStats
 
 ## TODOs
 
-- Add translation file, i118n etc. with language selector
 - Allow custom gas limit entry
 - Find more reliable gas limits for tx types?
 - Add more L2s (Currently Arbitrum and Optimism)
-- Add more transaction types
-- Add L1 calldata calculation post EIP-4844
+- Add more transaction types (Limited by CryptoStats adapters)
 
 PRs or feature requests are welcome!
 
@@ -31,17 +22,25 @@ Current gas limits used by the app are
 - NFT Sale: 601953
 - ERC-20: 65000
 
+## Translations
+
+Translation files are stored in `/public/locales/{language}/translation.json`.
 
 ## Getting Started
 
-Create a .env file and add these contents:
+Create a .env file and add these contents, replacing xxx with your credentials:
 
 ```
 ETHERSCAN_KEY=xxx
 ALCHEMY_KEY=xxx
-```
+MORALIS_KEY=xxx
 
-Replacing xxx with an etherscan and alchemy api key
+# Only needed for deployment script:
+WORKING_DIR=xxx
+AWS_PROFILE=xxx
+BUCKET_NAME=x
+CLOUDFRONT_DISTRIBUTION=xxx
+```
 
 First, run the development server:
 
@@ -60,3 +59,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Deploying
+
+There is a simple deploy.sh script which will push the contents of `out` into s3 and invalidate a cloudfront distribution.
+Setting up these resources is not part of this project
