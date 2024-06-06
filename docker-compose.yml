@@ -1,0 +1,14 @@
+services:
+  ether-gas-react:
+    build: ./
+    volumes:
+      - .:/react-app
+      - ~/.aws:/home/node/.aws
+    ports:
+      - "3000:3000"
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npm install
+        npm run dev
