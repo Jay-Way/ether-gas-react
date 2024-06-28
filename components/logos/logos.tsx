@@ -51,7 +51,7 @@ export const usdcTokenLogo = (
 export const ethereumLogo = <Image
     alt="ethereum logo"
     radius="sm"
-    src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
+    src="https://ethereum.org/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
     width={25}
 />
 

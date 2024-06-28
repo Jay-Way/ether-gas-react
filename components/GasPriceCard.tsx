@@ -2,7 +2,6 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Image,
   Spacer,
   Spinner,
 } from "@nextui-org/react";
@@ -11,6 +10,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { refetchInterval } from "@/components/mainCard";
 import { fromWei } from "@/components/utils/converter";
 import {useTranslation} from "react-i18next";
+import {ethereumLogo} from "@/components/logos/logos";
 
 export default function GasPriceCard(props: {
   gasOracleQuery: UseQueryResult<any>;
@@ -19,12 +19,7 @@ export default function GasPriceCard(props: {
   return (
     <Card className="mt-6">
       <CardHeader className="flex gap-3">
-        <Image
-          alt="ethereum logo"
-          radius="sm"
-          src="https://ethereum.org/de/_next/static/media/eth-diamond-rainbow.bb509e8a.png"
-          width={20}
-        />
+        {ethereumLogo}
         <div className="">
           <span className="text-xs text-default-500">
             {t('gasPriceCard.dataHint')}
